@@ -1,0 +1,30 @@
+{
+    "name": "rah/textpattern-project-template",
+    "description": "Textpattern CMS project template",
+    "type": "project",
+    "keywords": [
+        "textpattern"
+    ],
+    "homepage": "https://github.com/gocom/textpattern-project-template",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jukka Svahn",
+            "homepage": "https://github.com/gocom",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/gocom/textpattern-project-template/issues",
+        "source": "https://github.com/gocom/textpattern-project-template"
+    },
+    "require": {
+        "php": "^8.1"
+    },
+    "private": true,
+    "config": {
+        "allow-plugins": {
+            "textpattern/installer": true
+        }
+    }
+}

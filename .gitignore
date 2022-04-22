@@ -1,0 +1,9 @@
+.*
+!.editorconfig
+!.gitignore
+/docker/data/
+/public/*
+!/public/themes/
+/vendor/
+/node_modules/
+package-lock.json

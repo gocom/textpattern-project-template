@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+    web:
+        image: nginx:latest
+        ports:
+            - "127.0.0.1:80:80"
+            - "127.0.0.1:443:443"
+        volumes:
+            - .:/var/www/html
+            - ./docker/image/nginx/conf/site.conf:/etc/nginx/conf.d/site.conf
+        networks:
+            - frontend
+        depends_on:
+            - php
+            - db
+
+    php:
+        build: ./docker/image/php
+        volumes:
+            - .:/var/www/html
+        networks:
+            - backend
+            - frontend
+        depends_on:
+            - db
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - "8080:80"
+        environment:
+            - PMA_ARBITRARY=1
+            - PMA_HOST=db
+        depends_on:
+            - db
+        networks:
+            - backend
+            - frontend
+
+    db:
+        image: mysql:5.7
+        volumes:
+            - ./docker/dump:/dump
+            - ./docker/data/var/lib/mysql:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=rah
+            - TZ=America/New_York
+        networks:
+            - backend
+
+    memcached:
+        image: memcached:1.5-alpine
+        networks:
+            - backend
+
+networks:
+    backend:
+        driver: bridge
+    frontend:
+        driver: bridge
