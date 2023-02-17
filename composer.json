@@ -20,8 +20,7 @@
     },
     "require": {
         "php": "^8.1",
-        "textpattern/lock": "4.8.8",
-        "rah/rah_sitemap": "^4.0"
+        "textpattern/lock": "4.8.8"
     },
     "private": true,
     "config": {

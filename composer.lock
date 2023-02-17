@@ -1,0 +1,58 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "ffebb98624b280344278dca2169b9009",
+    "packages": [
+        {
+            "name": "textpattern/lock",
+            "version": "4.8.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocom/textpattern-lock.git",
+                "reference": "b4d3dcd112936001f9fd3e5bf267f8a901944c9e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocom/textpattern-lock/zipball/b4d3dcd112936001f9fd3e5bf267f8a901944c9e",
+                "reference": "b4d3dcd112936001f9fd3e5bf267f8a901944c9e",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "description": "Lock your Textpattern CMS version or define package dependencies",
+            "homepage": "https://textpattern.com",
+            "keywords": [
+                "core",
+                "meta",
+                "textpattern"
+            ],
+            "support": {
+                "issues": "https://github.com/gocom/textpattern-lock/issues",
+                "source": "https://github.com/gocom/textpattern-lock"
+            },
+            "time": "2019-02-28T21:42:12+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": "^8.1"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
