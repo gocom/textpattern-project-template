@@ -1,6 +1,7 @@
 .*
 !.editorconfig
 !.gitignore
+!.env.template
 /docker/data/
 /public/*
 !/public/themes/

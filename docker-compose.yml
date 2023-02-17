@@ -1,62 +1,73 @@
 version: '3'
 
 services:
-    web:
-        image: nginx:latest
+    reverse-proxy:
+        image: nginx:mainline
         ports:
             - "127.0.0.1:80:80"
             - "127.0.0.1:443:443"
         volumes:
+            - ./docker/image/reverse-proxy/nginx.conf:/etc/nginx/nginx.conf
+        networks:
+            - proxy
+        depends_on:
+            - nginx
+            - phpmyadmin
+
+    nginx:
+        image: nginx:mainline
+        volumes:
             - .:/var/www/html
             - ./docker/image/nginx/conf/site.conf:/etc/nginx/conf.d/site.conf
         networks:
-            - frontend
+            - proxy
+            - php
         depends_on:
             - php
-            - db
 
     php:
         build: ./docker/image/php
         volumes:
             - .:/var/www/html
-        networks:
-            - backend
-            - frontend
-        depends_on:
-            - db
-
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        ports:
-            - "8080:80"
         environment:
-            - PMA_ARBITRARY=1
-            - PMA_HOST=db
+            - DATABASE_NAME
+            - DATABASE_USER
+            - DATABASE_PASSWORD
+            - DATABASE_HOST
+        networks:
+            - php
+            - mysql
         depends_on:
-            - db
-        networks:
-            - backend
-            - frontend
+            - mysql
 
-    db:
-        image: mysql:5.7
-        volumes:
-            - ./docker/dump:/dump
-            - ./docker/data/var/lib/mysql:/var/lib/mysql
+    mysql:
+        image: mysql:8.0.32-debian
         environment:
-            - MYSQL_ROOT_PASSWORD=root
-            - MYSQL_DATABASE=rah
-            - TZ=America/New_York
+            - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+            - MYSQL_DATABASE=${DATABASE_NAME}
+            - MYSQL_USER=${DATABASE_USER}
+            - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+            - TZ=${TIMEZONE}
         networks:
-            - backend
+            - mysql
 
     memcached:
         image: memcached:1.5-alpine
         networks:
-            - backend
+            - php
 
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:5.2.1
+        environment:
+            - PMA_ARBITRARY=1
+            - PMA_HOST=${DATABASE_HOST}
+            - UPLOAD_LIMIT=1G
+        depends_on:
+            - mysql
+        networks:
+            - proxy
+            - mysql
 networks:
-    backend:
-        driver: bridge
-    frontend:
-        driver: bridge
+    proxy:
+    php:
+    mysql:

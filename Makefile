@@ -1,12 +1,45 @@
-.PHONY: start stop
+.PHONY: help start stop clean create-env require-install require-no-install install textpattern-download textpattern-config
 
-all: start
+TEXTPATTERN_VERSION ?= 4.8.8
 
-start:
+all: help
+
+require-install:
+ifeq (,$(wildcard .env))
+	@echo "Project is not yet installed."
+	exit 1
+endif
+
+require-no-install:
+ifneq (,$(wildcard .env))
+	@echo "Project is already installed."
+	exit 1
+endif
+
+create-env:
+ifeq (,$(wildcard .env))
+	cp .env.template .env
+endif
+
+install: require-no-install textpattern-download create-env start
+
+textpattern-download:
+	curl -L "https://github.com/textpattern/textpattern/releases/download/$(TEXTPATTERN_VERSION)/textpattern-$(TEXTPATTERN_VERSION).tar.gz" --output textpattern.tar.gz
+	tar -xf textpattern.tar.gz -C public/ --strip 1
+	rm textpattern.tar.gz
+
+textpattern-config:
+	cp textpattern.config.php public/textpattern/config.php
+
+start: require-install stop
 	docker-compose up -d
 
-stop:
-	docker-compose stop -d
+stop: require-install
+	docker-compose stop
+
+clean:
+	docker-compose down -rmi 'local' --volumes
+	rm -rf .env
 
 help:
 	@echo "Manage project"
@@ -15,6 +48,12 @@ help:
 	@echo "  $$ make [command]"
 	@echo ""
 	@echo "Commands:"
+	@echo ""
+	@echo "  $$ make install"
+	@echo "  Installs the project"
+	@echo ""
+	@echo "  $$ make clean"
+	@echo "  Uninstall the project"
 	@echo ""
 	@echo "  $$ make start"
 	@echo "  Starts the project"
