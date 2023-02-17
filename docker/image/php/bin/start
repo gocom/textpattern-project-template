@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+groupmod --gid "$HOST_GID" www-data
+usermod --uid "$HOST_UID" www-data
+
+exec php-fpm

@@ -1,7 +1,10 @@
 .PHONY: help start stop clean create-env require-install require-no-install install textpattern-download textpattern-config shell
 
+HOST_UID ?= `id -u`
+HOST_GID ?= `id -g`
 TEXTPATTERN_VERSION ?= 4.8.8
-PHP = docker-compose exec php
+PHP = docker-compose exec -u www-data:www-data php
+COMPOSE = HOST_UID=$(HOST_UID) HOST_GID=$(HOST_GID) docker-compose
 
 all: help
 
@@ -33,7 +36,7 @@ textpattern-config:
 	cp textpattern.config.php public/textpattern/config.php
 
 start: require-install stop
-	docker-compose up -d
+	$(COMPOSE) up -d
 
 stop: require-install
 	docker-compose stop

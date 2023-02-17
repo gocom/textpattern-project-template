@@ -23,3 +23,11 @@ RUN git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ex
     && docker-php-ext-install memcached
 
 COPY --from=composer:2.3 /usr/bin/composer /usr/local/bin/composer
+COPY ./bin/ /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/*
+
+ENV HOST_UID 1000
+ENV HOST_GID 1000
+
+CMD [ "/usr/local/bin/start" ]
