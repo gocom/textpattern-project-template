@@ -1,6 +1,7 @@
-.PHONY: help start stop clean create-env require-install require-no-install install textpattern-download textpattern-config
+.PHONY: help start stop clean create-env require-install require-no-install install textpattern-download textpattern-config shell
 
 TEXTPATTERN_VERSION ?= 4.8.8
+PHP = docker-compose exec php
 
 all: help
 
@@ -41,6 +42,9 @@ clean:
 	docker-compose down -rmi 'local' --volumes
 	rm -rf .env
 
+shell: require-install
+	$(PHP) bash
+
 help:
 	@echo "Manage project"
 	@echo ""
@@ -60,4 +64,7 @@ help:
 	@echo ""
 	@echo "  $$ make stop"
 	@echo "  Stops the project"
+	@echo ""
+	@echo "  $$ make shell"
+	@echo "  Login to PHP service"
 	@echo ""
