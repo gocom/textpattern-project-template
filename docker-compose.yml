@@ -61,7 +61,6 @@ services:
     phpmyadmin:
         image: phpmyadmin/phpmyadmin:5.2.1
         environment:
-            - PMA_ARBITRARY=1
             - PMA_HOST=${DATABASE_HOST}
             - UPLOAD_LIMIT=1G
         depends_on:
