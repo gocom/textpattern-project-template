@@ -23,6 +23,7 @@ RUN git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ex
     && docker-php-ext-install memcached
 
 COPY --from=composer:2.3 /usr/bin/composer /usr/local/bin/composer
+COPY --from=atkrad/wait4x:latest /usr/bin/wait4x /usr/local/bin/wait4x
 COPY ./bin/ /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/*

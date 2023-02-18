@@ -1,8 +1,7 @@
-.PHONY: help start stop clean create-env require-install require-no-install install textpattern-download textpattern-config shell
+.PHONY: help start stop clean create-env require-install require-no-install install setup shell
 
 HOST_UID ?= `id -u`
 HOST_GID ?= `id -g`
-TEXTPATTERN_VERSION ?= 4.8.8
 PHP = docker-compose exec -u www-data:www-data php
 COMPOSE = HOST_UID=$(HOST_UID) HOST_GID=$(HOST_GID) docker-compose
 
@@ -25,25 +24,25 @@ ifeq (,$(wildcard .env))
 	cp .env.template .env
 endif
 
-install: require-no-install textpattern-download create-env start
+install: require-no-install create-env
+	$(MAKE) start
+	$(MAKE) setup
 
-textpattern-download:
-	curl -L "https://github.com/textpattern/textpattern/releases/download/$(TEXTPATTERN_VERSION)/textpattern-$(TEXTPATTERN_VERSION).tar.gz" --output textpattern.tar.gz
-	tar -xf textpattern.tar.gz -C public/ --strip 1
-	rm textpattern.tar.gz
-
-textpattern-config:
-	cp textpattern.config.php public/textpattern/config.php
+setup:
+	$(PHP) textpattern-download
+	$(PHP) textpattern-setup
 
 start: require-install stop
 	$(COMPOSE) up -d
 
-stop: require-install
+stop:
 	docker-compose stop
 
 clean:
-	docker-compose down -rmi 'local' --volumes
-	rm -rf .env
+	docker-compose run --rm php chown -R $(HOST_UID):$(HOST_GID) .
+	$(MAKE) stop
+	git clean -f -X -d
+	docker-compose down --rmi 'local' --volumes
 
 shell: require-install
 	$(PHP) bash

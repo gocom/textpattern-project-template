@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "Waiting for MYSQL database to be ready..."
+wait4x mysql "${DATABASE_USER}:${DATABASE_PASSWORD}@tcp(${DATABASE_HOST}:3306)/${DATABASE_NAME}" > /dev/null 2>&1

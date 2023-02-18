@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+rm -f /tmp/textpattern.tar.gz || exit 1
+
+curl -L "https://github.com/textpattern/textpattern/releases/download/${TEXTPATTERN_VERSION}/textpattern-${TEXTPATTERN_VERSION}.tar.gz" \
+    --output /tmp/textpattern.tar.gz || exit 1
+
+tar -xf /tmp/textpattern.tar.gz -C /var/www/html/public/ --strip 1 || exit 1
+
+rm -f /tmp/textpattern.tar.gz || exit 1

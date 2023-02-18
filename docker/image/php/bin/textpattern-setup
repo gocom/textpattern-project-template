@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+cat <<EOF > /tmp/textpattern-setup-config.json || exit 1
+{
+    "site": {
+        "language_code": "en",
+        "public_url": "${DOMAIN}",
+        "admin_theme": "${ADMIN_THEME}",
+        "public_theme": "${PUBLIC_THEME}",
+        "content_directory": ""
+    },
+    "database": {
+        "user": "${DATABASE_USER}",
+        "password": "${DATABASE_PASSWORD}",
+        "host": "${DATABASE_HOST}",
+        "db_name": "${DATABASE_NAME}",
+        "table_prefix": ""
+    },
+    "user": {
+        "full_name": "${ADMIN_USER_FULL_NAME}",
+        "email": "${ADMIN_USER_EMAIL}",
+        "login_name": "${ADMIN_USER_LOGIN_NAME}",
+        "password": "${ADMIN_USER_PASSWORD}"
+    }
+}
+EOF
+
+textpattern-wait-for-db || exit 1
+
+status=0
+
+php /var/www/html/public/textpattern/setup/setup.php --config="/tmp/textpattern-setup-config.json" || status=1
+
+rm -f /tmp/textpattern-setup-config.json || exit 1
+
+exit "$status"

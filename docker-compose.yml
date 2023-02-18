@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
     reverse-proxy:
@@ -30,10 +30,18 @@ services:
         volumes:
             - .:/var/www/html
         environment:
+            - DOMAIN
             - DATABASE_NAME
             - DATABASE_USER
             - DATABASE_PASSWORD
             - DATABASE_HOST
+            - ADMIN_USER_FULL_NAME
+            - ADMIN_USER_EMAIL
+            - ADMIN_USER_LOGIN_NAME
+            - ADMIN_USER_PASSWORD
+            - ADMIN_THEME
+            - PUBLIC_THEME
+            - TEXTPATTERN_VERSION
             - HOST_UID
             - HOST_GID
         networks:
