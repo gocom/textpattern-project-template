@@ -25,6 +25,12 @@ RUN git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ex
 COPY --from=composer:2.3 /usr/bin/composer /usr/local/bin/composer
 COPY --from=atkrad/wait4x:latest /usr/bin/wait4x /usr/local/bin/wait4x
 COPY ./bin/ /usr/local/bin/
+COPY ./conf/ /usr/local/etc/php/conf.d/
+
+RUN curl -Lsf https://dl.google.com/go/go1.12.7.linux-amd64.tar.gz | tar -C '/usr/local' -xvzf -
+ENV GOBIN /usr/local/bin
+ENV PATH /usr/local/go/bin:$PATH
+RUN go get github.com/mailhog/mhsendmail
 
 RUN chmod +x /usr/local/bin/* \
     && chown -R www-data:www-data /var/www

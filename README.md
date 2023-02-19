@@ -15,7 +15,7 @@ $ make install
 After that add the following mapping to your hosts file:
 
 ```
-127.0.0.1 projectname.test phpmyadmin.projectname.test
+127.0.0.1 projectname.test mailhog.projectname.test phpmyadmin.projectname.test
 ```
 
 After that `http://projectname.test` can be used to access the site

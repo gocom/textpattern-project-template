@@ -13,6 +13,7 @@ services:
         depends_on:
             - nginx
             - phpmyadmin
+            - mailhog
 
     nginx:
         image: nginx:mainline
@@ -49,6 +50,7 @@ services:
             - mysql
         depends_on:
             - mysql
+            - mailhog
 
     mysql:
         image: mysql:8.0.32-debian
@@ -76,6 +78,12 @@ services:
         networks:
             - proxy
             - mysql
+
+    mailhog:
+        image: mailhog/mailhog:v1.0.1
+        networks:
+            - php
+            - proxy
 networks:
     proxy:
     php:
