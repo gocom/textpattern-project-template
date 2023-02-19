@@ -28,9 +28,13 @@ install: require-no-install create-env
 	$(MAKE) start
 	$(MAKE) setup
 
+vendor:
+	$(PHP) composer install
+
 setup:
 	$(PHP) textpattern-download
 	$(PHP) textpattern-setup
+	$(MAKE) vendor
 
 start: require-install stop
 	$(COMPOSE) up -d
