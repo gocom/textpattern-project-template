@@ -26,7 +26,8 @@ COPY --from=composer:2.3 /usr/bin/composer /usr/local/bin/composer
 COPY --from=atkrad/wait4x:latest /usr/bin/wait4x /usr/local/bin/wait4x
 COPY ./bin/ /usr/local/bin/
 
-RUN chmod +x /usr/local/bin/*
+RUN chmod +x /usr/local/bin/* \
+    && chown -R www-data:www-data /var/www
 
 ENV HOST_UID 1000
 ENV HOST_GID 1000
