@@ -4,8 +4,218 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ffebb98624b280344278dca2169b9009",
+    "content-hash": "66e9d40e9a361a1d9483f84257eb0514",
     "packages": [
+        {
+            "name": "rah/rah_autoload",
+            "version": "0.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocom/rah_autoload.git",
+                "reference": "451939c990547960c36c699af07585e8c8f7278c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocom/rah_autoload/zipball/451939c990547960c36c699af07585e8c8f7278c",
+                "reference": "451939c990547960c36c699af07585e8c8f7278c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "textpattern/installer": "*",
+                "textpattern/lock": ">=4.4.1"
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "3.*"
+            },
+            "type": "textpattern-plugin",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jukka Svahn",
+                    "homepage": "https://rahforum.biz",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Loads Composer generated autoload files in Textpattern CMS",
+            "homepage": "https://github.com/gocom/rah_autoload",
+            "keywords": [
+                "autoload",
+                "dependency",
+                "inject",
+                "loader",
+                "plugin",
+                "textpattern"
+            ],
+            "support": {
+                "issues": "https://github.com/gocom/rah_autoload/issues",
+                "source": "https://github.com/gocom/rah_autoload"
+            },
+            "time": "2019-03-24T19:46:07+00:00"
+        },
+        {
+            "name": "rah/rah_flat",
+            "version": "0.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocom/rah_flat.git",
+                "reference": "0125c2d17689426f54abb9ce5e0d8608a6fe2020"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocom/rah_flat/zipball/0125c2d17689426f54abb9ce5e0d8608a6fe2020",
+                "reference": "0125c2d17689426f54abb9ce5e0d8608a6fe2020",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0",
+                "textpattern/installer": "*",
+                "textpattern/lock": ">=4.7.0"
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "3.*"
+            },
+            "type": "textpattern-plugin",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jukka Svahn",
+                    "homepage": "https://rahforum.biz",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Textpattern CMS templates as flat files",
+            "homepage": "https://github.com/gocom/rah_flat",
+            "keywords": [
+                "flat",
+                "plugin",
+                "template",
+                "textpattern"
+            ],
+            "support": {
+                "issues": "https://github.com/gocom/rah_flat/issues",
+                "source": "https://github.com/gocom/rah_flat"
+            },
+            "time": "2019-10-13T00:36:29+00:00"
+        },
+        {
+            "name": "rah/rah_sitemap",
+            "version": "4.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocom/rah_sitemap.git",
+                "reference": "41fd5dd7420718bd4a99109b7835fbb1a835e51d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocom/rah_sitemap/zipball/41fd5dd7420718bd4a99109b7835fbb1a835e51d",
+                "reference": "41fd5dd7420718bd4a99109b7835fbb1a835e51d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-zlib": "*",
+                "php": ">=7.4",
+                "textpattern/installer": "*",
+                "textpattern/lock": ">=4.8.8"
+            },
+            "require-dev": {
+                "rah/mtxpc": "^0.9.0",
+                "squizlabs/php_codesniffer": "3.*"
+            },
+            "type": "textpattern-plugin",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jukka Svahn",
+                    "homepage": "https://github.com/gocom",
+                    "role": "Developer"
+                }
+            ],
+            "description": "XML sitemap plugin for Textpattern CMS",
+            "homepage": "https://github.com/gocom/rah_sitemap",
+            "keywords": [
+                "plugin",
+                "textpattern"
+            ],
+            "support": {
+                "issues": "https://github.com/gocom/rah_sitemap/issues",
+                "source": "https://github.com/gocom/rah_sitemap"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/jukkasvahn",
+                    "type": "custom"
+                }
+            ],
+            "time": "2023-02-18T09:12:40+00:00"
+        },
+        {
+            "name": "textpattern/installer",
+            "version": "1.0.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocom/textpattern-installer.git",
+                "reference": "cd940ecb17b063780b1c7e0617a4e2523176b921"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocom/textpattern-installer/zipball/cd940ecb17b063780b1c7e0617a4e2523176b921",
+                "reference": "cd940ecb17b063780b1c7e0617a4e2523176b921",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0 || ^2.0",
+                "php": ">=5.5.38",
+                "textpattern/lock": ">=4.4.1"
+            },
+            "require-dev": {
+                "composer/composer": "^1.6 || ^2.0",
+                "squizlabs/php_codesniffer": "^3.6.2"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Textpattern\\Composer\\Installer\\Installer\\Plugin"
+            },
+            "autoload": {
+                "psr-0": {
+                    "Textpattern\\Composer\\Installer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jukka Svahn",
+                    "homepage": "https://github.com/gocom",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Textpattern plugin and theme installer",
+            "homepage": "https://github.com/gocom/textpattern-installer",
+            "keywords": [
+                "installer",
+                "plugin",
+                "textpattern",
+                "theme",
+                "txp"
+            ],
+            "support": {
+                "issues": "https://github.com/gocom/textpattern-installer/issues",
+                "source": "https://github.com/gocom/textpattern-installer"
+            },
+            "time": "2022-04-23T21:38:59+00:00"
+        },
         {
             "name": "textpattern/lock",
             "version": "4.8.8",
