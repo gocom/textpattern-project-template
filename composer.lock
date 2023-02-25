@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "66e9d40e9a361a1d9483f84257eb0514",
+    "content-hash": "6c6e35dfcf2f514d67e26ea7568eeace",
     "packages": [
         {
             "name": "rah/rah_autoload",
@@ -103,6 +103,63 @@
                 "source": "https://github.com/gocom/rah_flat"
             },
             "time": "2019-10-13T00:36:29+00:00"
+        },
+        {
+            "name": "rah/rah_memcached",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocom/rah_memcached.git",
+                "reference": "103529dcef517322718b563682adbeb596dfc64d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocom/rah_memcached/zipball/103529dcef517322718b563682adbeb596dfc64d",
+                "reference": "103529dcef517322718b563682adbeb596dfc64d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-memcached": "*",
+                "php": ">=8.1",
+                "textpattern/installer": "*",
+                "textpattern/lock": ">=4.7.0"
+            },
+            "require-dev": {
+                "rah/mtxpc": "^0.9.0",
+                "squizlabs/php_codesniffer": "3.*"
+            },
+            "type": "textpattern-plugin",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jukka Svahn",
+                    "homepage": "https://github.com/gocom",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Memcached Textpattern CMS templates",
+            "homepage": "https://github.com/gocom/rah_memcached",
+            "keywords": [
+                "cache",
+                "memcached",
+                "memory",
+                "plugin",
+                "textpattern"
+            ],
+            "support": {
+                "issues": "https://github.com/gocom/rah_memcached/issues",
+                "source": "https://github.com/gocom/rah_memcached"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/jukkasvahn",
+                    "type": "custom"
+                }
+            ],
+            "time": "2022-04-22T18:19:26+00:00"
         },
         {
             "name": "rah/rah_sitemap",

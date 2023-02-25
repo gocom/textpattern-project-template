@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+rm -f /var/www/html/public/textpattern/config.php || exit 1
+
+ln -s /var/www/html/textpattern-config.php /var/www/html/public/textpattern/config.php || exit 1

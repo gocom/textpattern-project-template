@@ -32,10 +32,16 @@ services:
             - .:/var/www/html
         environment:
             - DOMAIN
+            - PROTOCOL
+            - IMAGE_HOST_URL
             - DATABASE_NAME
             - DATABASE_USER
             - DATABASE_PASSWORD
             - DATABASE_HOST
+            - DATABASE_CHARSET
+            - DATABASE_TABLE_PREFIX
+            - MEMCACHED_HOST
+            - MEMCACHED_PORT
             - ADMIN_USER_FULL_NAME
             - ADMIN_USER_EMAIL
             - ADMIN_USER_LOGIN_NAME
@@ -64,7 +70,7 @@ services:
             - mysql
 
     memcached:
-        image: memcached:1.5-alpine
+        image: memcached:1.6.18-alpine
         networks:
             - php
 

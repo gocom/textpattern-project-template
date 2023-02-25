@@ -33,4 +33,8 @@ php /var/www/html/public/textpattern/setup/setup.php --config="/tmp/textpattern-
 
 rm -f /tmp/textpattern-setup-config.json || exit 1
 
-exit "$status"
+if [ "$status" -eq 1 ]; then
+    exit 1
+fi
+
+textpattern-configure || exit 1

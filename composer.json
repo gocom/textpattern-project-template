@@ -23,7 +23,8 @@
         "textpattern/lock": "4.8.8",
         "rah/rah_flat": "^0.4.3",
         "rah/rah_sitemap": "^4.0",
-        "rah/rah_autoload": "^0.3.2"
+        "rah/rah_autoload": "^0.3.2",
+        "rah/rah_memcached": "^0.3.0"
     },
     "autoload": {
         "psr-4": {
