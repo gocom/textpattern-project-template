@@ -1,7 +1,14 @@
 .*
 !.editorconfig
+!.eslintignore
+!.eslintrc.js
 !.gitignore
 !.env.template
+!.htmlvalidate.json
+!.stylelintignore
+!.stylelintrc.json
+auth.json
+coverage/
 /docker/data/
 /public/*
 !/public/themes/

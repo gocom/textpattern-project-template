@@ -92,6 +92,16 @@ services:
         networks:
             - php
             - proxy
+
+    node:
+        image: node:lts
+        volumes:
+            -   .:/app
+        environment:
+            - NODE_ENV=${ENVIRONMENT_MODE}
+            - NPM_CONFIG_UPDATE_NOTIFIER=false
+        user: "${HOST_UID}:${HOST_GID}"
+        working_dir: /app
 networks:
     proxy:
     php:
