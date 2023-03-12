@@ -12,14 +12,14 @@ To set up the project, run:
 $ make install
 ```
 
-After that add the following mapping to your hosts file:
+After that, run the following and add the output to your hosts file:
 
-```
-127.0.0.1 projectname.test mailhog.projectname.test phpmyadmin.projectname.test
+```shell
+$ make hosts
 ```
 
-After that `http://projectname.test` can be used to access the site
-and `http://phpmyadmin.projectname.test` phpMyAdmin.
+Once the host mapping has been added, `http://projectname.test` can be
+used to access the site.
 
 Development
 -----

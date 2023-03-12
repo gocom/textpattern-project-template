@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+main () {
+    local hosts
+
+    hosts=("127.0.0.1" \
+        "$DOMAIN" \
+        "mailhog.$DOMAIN" \
+        "phpmyadmin.$DOMAIN" \
+    )
+
+    echo "Add the following to your hosts file:"
+    echo "${hosts[@]}"
+}
+
+main "$@"

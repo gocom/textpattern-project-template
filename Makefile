@@ -1,4 +1,4 @@
-.PHONY: help start stop clean create-env require-install install setup shell build node
+.PHONY: help start stop clean create-env require-install install setup shell build node hosts
 
 HOST_UID ?= `id -u`
 HOST_GID ?= `id -g`
@@ -65,6 +65,9 @@ lint: require-install
 lint-fix: require-install
 	$(NODE) npm run lint:fix
 
+hosts:
+	$(PHP) bin/hosts
+
 help:
 	@echo "Manage project"
 	@echo ""
@@ -75,6 +78,9 @@ help:
 	@echo ""
 	@echo "  $$ make install"
 	@echo "  Installs the project"
+	@echo ""
+	@echo "  $$ make hosts"
+	@echo "  Prints hosts mapping"
 	@echo ""
 	@echo "  $$ make clean"
 	@echo "  Uninstall the project"
