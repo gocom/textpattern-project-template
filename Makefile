@@ -27,7 +27,7 @@ vendor:
 	$(PHP) composer install
 
 node_modules:
-	$(NODE) npm ci
+	$(NODE) npm install
 
 setup:
 	$(PHP) textpattern-download
