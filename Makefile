@@ -2,8 +2,8 @@
 
 HOST_UID ?= `id -u`
 HOST_GID ?= `id -g`
-PHP = docker-compose exec -u www-data:www-data php
-COMPOSE = HOST_UID=$(HOST_UID) HOST_GID=$(HOST_GID) docker-compose
+PHP = docker compose exec -u www-data:www-data php
+COMPOSE = HOST_UID=$(HOST_UID) HOST_GID=$(HOST_GID) docker compose
 NODE = $(COMPOSE) run --rm node
 
 all: help
