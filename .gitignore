@@ -2,6 +2,7 @@
 !.editorconfig
 !.eslintignore
 !.eslintrc.js
+!.github
 !.gitignore
 !.env.template
 !.htmlvalidate.json

@@ -1,0 +1,39 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: environment
+        description: Environment
+        required: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Build artifact
+        run: mkdir -p build/ && echo "Hello world!" > build/index
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: build/
+          if-no-files-found: fail
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    needs: build
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v5
+
+      - name: Deploy artifact
+        run: ls *
