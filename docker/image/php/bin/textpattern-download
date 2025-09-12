@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 
-rm -f /tmp/textpattern.tar.gz || exit 1
+set -e
+
+rm -f /tmp/textpattern.tar.gz
 
 curl -L "https://github.com/textpattern/textpattern/releases/download/${TEXTPATTERN_VERSION}/textpattern-${TEXTPATTERN_VERSION}.tar.gz" \
-    --output /tmp/textpattern.tar.gz || exit 1
+    --output /tmp/textpattern.tar.gz
 
-tar -xf /tmp/textpattern.tar.gz -C /var/www/html/public/ --strip 1 || exit 1
+mkdir -p /var/www/html/public
 
-rm -f /tmp/textpattern.tar.gz || exit 1
+tar -xf /tmp/textpattern.tar.gz -C /var/www/html/public/ --strip 1
+
+chown -R "$HOST_UID:$HOST_GID" /var/www/html/
+
+rm -f /tmp/textpattern.tar.gz

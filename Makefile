@@ -1,10 +1,11 @@
-.PHONY: help start stop clean create-env require-install install setup shell build node hosts
+.PHONY: artifact help start stop clean create-env require-install install setup shell build node hosts
 
 HOST_UID ?= `id -u`
 HOST_GID ?= `id -g`
 PHP = docker compose exec -u www-data:www-data php
 COMPOSE = HOST_UID=$(HOST_UID) HOST_GID=$(HOST_GID) docker compose
 NODE = $(COMPOSE) run --rm node
+BUILD = $(COMPOSE) run --rm build
 
 all: help
 
@@ -56,17 +57,24 @@ build: node_modules
 node:
 	$(NODE) bash
 
-test: require-install
+test:
 	$(NODE) npm run test
 
-lint: require-install
+lint:
 	$(NODE) npm run lint
 
-lint-fix: require-install
+lint-fix:
 	$(NODE) npm run lint:fix
 
 hosts:
 	$(PHP) bin/hosts
+
+artifact: create-env
+	mkdir -p build/public
+	$(BUILD) textpattern-download
+	$(MAKE) build
+	cp -R themes build
+	cp -R public/assets build/public
 
 help:
 	@echo "Manage project"
@@ -93,4 +101,13 @@ help:
 	@echo ""
 	@echo "  $$ make shell"
 	@echo "  Login to PHP service"
+	@echo ""
+	@echo "  $$ make lint"
+	@echo "  Run linters"
+	@echo ""
+	@echo "  $$ make test"
+	@echo "  Run test suite"
+	@echo ""
+	@echo "  $$ make artifact"
+	@echo "  Build deployment artifact"
 	@echo ""

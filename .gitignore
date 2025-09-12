@@ -6,10 +6,12 @@
 !.gitignore
 !.env.template
 !.htmlvalidate.json
+!.nvmrc
 !.stylelintignore
 !.stylelintrc.json
 auth.json
-coverage/
+/build/
+/coverage/
 /docker/data/
 /public/*
 !/public/themes/

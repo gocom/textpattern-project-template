@@ -1,106 +1,117 @@
 services:
-    reverse-proxy:
-        image: nginx:mainline
-        ports:
-            - "127.0.0.1:80:80"
-            - "127.0.0.1:443:443"
-        volumes:
-            - ./docker/image/reverse-proxy/nginx.conf:/etc/nginx/nginx.conf
-        networks:
-            - proxy
-        depends_on:
-            - nginx
-            - phpmyadmin
-            - mailhog
+  reverse-proxy:
+    image: nginx:mainline
+    ports:
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
+    volumes:
+      - ./docker/image/reverse-proxy/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - proxy
+    depends_on:
+      - nginx
+      - phpmyadmin
+      - mailhog
 
-    nginx:
-        image: nginx:mainline
-        volumes:
-            - .:/var/www/html
-            - ./docker/image/nginx/conf/site.conf:/etc/nginx/conf.d/site.conf
-        networks:
-            proxy:
-            php:
-                aliases:
-                    - ${DOMAIN}
-        depends_on:
-            - php
+  nginx:
+    image: nginx:mainline
+    volumes:
+      - .:/var/www/html
+      - ./docker/image/nginx/conf/site.conf:/etc/nginx/conf.d/site.conf
+    networks:
+      proxy:
+      php:
+        aliases:
+          - ${DOMAIN}
+    depends_on:
+      - php
 
-    php:
-        build: ./docker/image/php
-        volumes:
-            - .:/var/www/html
-        environment:
-            - DOMAIN
-            - PROTOCOL
-            - IMAGE_HOST_URL
-            - DATABASE_NAME
-            - DATABASE_USER
-            - DATABASE_PASSWORD
-            - DATABASE_HOST
-            - DATABASE_CHARSET
-            - DATABASE_TABLE_PREFIX
-            - MEMCACHED_HOST
-            - MEMCACHED_PORT
-            - ADMIN_USER_FULL_NAME
-            - ADMIN_USER_EMAIL
-            - ADMIN_USER_LOGIN_NAME
-            - ADMIN_USER_PASSWORD
-            - ADMIN_THEME
-            - PUBLIC_THEME
-            - TEXTPATTERN_VERSION
-            - HOST_UID
-            - HOST_GID
-        networks:
-            - php
-            - mysql
-        depends_on:
-            - mysql
-            - mailhog
+  php:
+    build: ./docker/image/php
+    volumes:
+      - .:/var/www/html
+    environment:
+      - DOMAIN
+      - PROTOCOL
+      - IMAGE_HOST_URL
+      - DATABASE_NAME
+      - DATABASE_USER
+      - DATABASE_PASSWORD
+      - DATABASE_HOST
+      - DATABASE_CHARSET
+      - DATABASE_TABLE_PREFIX
+      - MEMCACHED_HOST
+      - MEMCACHED_PORT
+      - ADMIN_USER_FULL_NAME
+      - ADMIN_USER_EMAIL
+      - ADMIN_USER_LOGIN_NAME
+      - ADMIN_USER_PASSWORD
+      - ADMIN_THEME
+      - PUBLIC_THEME
+      - TEXTPATTERN_VERSION
+      - HOST_UID
+      - HOST_GID
+    networks:
+      - php
+      - mysql
+    depends_on:
+      - mysql
+      - mailhog
 
-    mysql:
-        image: mysql:8.0.32-debian
-        environment:
-            - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
-            - MYSQL_DATABASE=${DATABASE_NAME}
-            - MYSQL_USER=${DATABASE_USER}
-            - MYSQL_PASSWORD=${DATABASE_PASSWORD}
-            - TZ=${TIMEZONE}
-        networks:
-            - mysql
+  build:
+    build: ./docker/image/php
+    volumes:
+      - ./build:/var/www/html
+    environment:
+      - TEXTPATTERN_VERSION
+      - HOST_UID
+      - HOST_GID
+    command: 'true'
 
-    memcached:
-        image: memcached:1.6.18-alpine
-        networks:
-            - php
+  mysql:
+    image: mysql:8.0.32-debian
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      - MYSQL_USER=${DATABASE_USER}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+      - TZ=${TIMEZONE}
+    networks:
+      - mysql
 
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin:5.2.1
-        environment:
-            - PMA_HOST=${DATABASE_HOST}
-            - UPLOAD_LIMIT=1G
-        depends_on:
-            - mysql
-        networks:
-            - proxy
-            - mysql
+  memcached:
+    image: memcached:1.6.18-alpine
+    networks:
+      - php
 
-    mailhog:
-        image: mailhog/mailhog:v1.0.1
-        networks:
-            - php
-            - proxy
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.1
+    environment:
+      - PMA_HOST=${DATABASE_HOST}
+      - UPLOAD_LIMIT=1G
+    depends_on:
+      - mysql
+    networks:
+      - proxy
+      - mysql
 
-    node:
-        image: node:lts
-        volumes:
-            -   .:/app
-        environment:
-            - NODE_ENV=${ENVIRONMENT_MODE}
-            - NPM_CONFIG_UPDATE_NOTIFIER=false
-        user: "${HOST_UID}:${HOST_GID}"
-        working_dir: /app
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    networks:
+      - php
+      - proxy
+
+  node:
+    image: node:lts
+    volumes:
+      - .:/app
+    environment:
+      - NODE_ENV=${ENVIRONMENT_MODE}
+      - NPM_CONFIG_UPDATE_NOTIFIER=false
+    user: "${HOST_UID}:${HOST_GID}"
+    working_dir: /app
+
 networks:
-    proxy:
-    php:
-    mysql:
+  proxy:
+  php:
+  mysql:

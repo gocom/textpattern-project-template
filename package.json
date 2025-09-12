@@ -54,8 +54,8 @@
         "lint:fix": "eslint --fix --ext .js ./src/assets/",
         "test": "npm run lint && npm run test:unit",
         "test:unit": "jest --passWithNoTests",
-        "build": "webpack",
-        "build:dev": "webpack",
+        "build": "NODE_ENV=production webpack",
+        "build:dev": "NODE_ENV=development webpack",
         "watch": "npm run build:dev -- --watch"
     },
     "private": true

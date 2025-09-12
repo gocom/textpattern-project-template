@@ -1,4 +1,4 @@
-name: Deploy Textpattern
+name: Deploy
 
 on:
   workflow_dispatch:
@@ -14,8 +14,11 @@ jobs:
 
     steps:
 
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Build artifact
-        run: mkdir -p build/ && echo "Hello world!" > build/index
+        run: make artifact
         if: ${{ !inputs.run }}
 
       - name: Fetch artifact
@@ -28,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build
-          path: build/
+          path: build
           if-no-files-found: warn
           include-hidden-files: true
 
