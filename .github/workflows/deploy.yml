@@ -2,11 +2,6 @@ name: Deploy
 
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        type: environment
-        description: Environment
-        required: true
 
 jobs:
   build:
@@ -26,10 +21,23 @@ jobs:
           if-no-files-found: warn
           include-hidden-files: true
 
-  deploy:
-    name: Deploy
+  deploy-staging:
+    name: Deploy to staging
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: staging
+    needs: build
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v5
+
+      - name: Deploy artifact
+        run: ls *
+
+  deploy-production:
+    name: Deploy to production
+    runs-on: ubuntu-latest
+    environment: production
     needs: build
 
     steps:
