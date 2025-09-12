@@ -1,11 +1,13 @@
-.PHONY: artifact help start stop clean create-env require-install install setup shell build node hosts
+.PHONY: artifact help start stop clean create-env require-install install setup shell build hosts
+.ONESHELL:
+.SHELLFLAGS = -ec
 
 HOST_UID ?= `id -u`
 HOST_GID ?= `id -g`
 PHP = docker compose exec -u www-data:www-data php
 COMPOSE = HOST_UID=$(HOST_UID) HOST_GID=$(HOST_GID) docker compose
-NODE = $(COMPOSE) run --rm node
 BUILD = $(COMPOSE) run --rm build
+NPM = npm
 
 all: help
 
@@ -28,7 +30,10 @@ vendor:
 	$(PHP) composer install
 
 node_modules:
-	$(NODE) npm install
+ifeq (,$(wildcard node_modules))
+	@. ./dev/hook/nvm.sh
+	$(NPM) install
+endif
 
 setup:
 	$(PHP) textpattern-download
@@ -52,19 +57,20 @@ shell:
 	$(PHP) bash
 
 build: node_modules
-	$(NODE) npm run build
-
-node:
-	$(NODE) bash
+	@. ./dev/hook/nvm.sh
+	$(NPM) run build
 
 test: node_modules
-	$(NODE) npm run test
+	@. ./dev/hook/nvm.sh
+	$(NPM) run test
 
 lint: node_modules
-	$(NODE) npm run lint
+	@. ./dev/hook/nvm.sh
+	$(NPM) run lint
 
 lint-fix: node_modules
-	$(NODE) npm run lint:fix
+	@. ./dev/hook/nvm.sh
+	$(NPM) run lint:fix
 
 hosts:
 	$(PHP) bin/hosts
