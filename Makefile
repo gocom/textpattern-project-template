@@ -57,13 +57,13 @@ build: node_modules
 node:
 	$(NODE) bash
 
-test:
+test: node_modules
 	$(NODE) npm run test
 
-lint:
+lint: node_modules
 	$(NODE) npm run lint
 
-lint-fix:
+lint-fix: node_modules
 	$(NODE) npm run lint:fix
 
 hosts:
