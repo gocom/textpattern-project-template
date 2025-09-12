@@ -1,7 +1,11 @@
-name: Deploy
+name: Deploy Textpattern
 
 on:
   workflow_dispatch:
+    inputs:
+      run:
+        type: number
+        description: Deploy artifact from run ID (optional)
 
 jobs:
   build:
@@ -12,6 +16,13 @@ jobs:
 
       - name: Build artifact
         run: mkdir -p build/ && echo "Hello world!" > build/index
+        if: ${{ !inputs.run }}
+
+      - name: Fetch artifact
+        uses: actions/download-artifact@v5
+        with:
+          run-id: ${{ inputs.run }}
+        if: ${{ !!inputs.run }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -20,6 +31,19 @@ jobs:
           path: build/
           if-no-files-found: warn
           include-hidden-files: true
+
+  deploy-development:
+    name: Deploy to development
+    runs-on: ubuntu-latest
+    environment: development
+    needs: build
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v5
+
+      - name: Deploy artifact
+        run: ls -R
 
   deploy-staging:
     name: Deploy to staging
@@ -32,7 +56,7 @@ jobs:
         uses: actions/download-artifact@v5
 
       - name: Deploy artifact
-        run: ls *
+        run: ls -R
 
   deploy-production:
     name: Deploy to production
@@ -45,4 +69,4 @@ jobs:
         uses: actions/download-artifact@v5
 
       - name: Deploy artifact
-        run: ls *
+        run: ls -R
