@@ -61,6 +61,7 @@ jobs:
         with:
           name: ${{ needs.meta.outputs.artifact }}
           run-id: ${{ inputs.run-id }}
+          github-token: ${{ github.token }}
         if: ${{ !!inputs.run-id }}
 
       - name: Upload artifact
