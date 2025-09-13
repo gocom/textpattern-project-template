@@ -6,6 +6,12 @@ on:
       run:
         type: number
         description: Deploy artifact from run ID (optional)
+      skip-development:
+        type: boolean
+        description: Skip development environment
+      skip-staging:
+        type: boolean
+        description: Skip staging environment
 
 jobs:
   meta:
@@ -62,7 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     needs: [meta, build]
-    if: ${{ needs.meta.outputs.type == 'development' }}
+    if: ${{ needs.meta.outputs.type == 'development' && !inputs.skip-development }}
 
     steps:
       - name: Download artifact
@@ -76,7 +82,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: staging
     needs: [meta, build]
-    if: ${{ needs.meta.outputs.type == 'release' }}
+    if: ${{ needs.meta.outputs.type == 'release' && !inputs.skip-staging }}
 
     steps:
       - name: Download artifact
@@ -89,8 +95,8 @@ jobs:
     name: Deploy to production
     runs-on: ubuntu-latest
     environment: production
-    needs: [meta, build]
-    if: ${{ needs.meta.outputs.type == 'release' }}
+    needs: [meta, build, deploy-staging]
+    #if: ${{ needs.meta.outputs.type == 'release' }}
 
     steps:
       - name: Download artifact
