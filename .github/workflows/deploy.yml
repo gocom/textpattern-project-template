@@ -21,6 +21,7 @@ jobs:
       version: ${{ steps.resolve.outputs.version }}
       type: ${{ steps.resolve.outputs.type }}
       artifact: ${{ steps.resolve.outputs.artifact }}
+      id: ${{ steps.resolve.outputs.id }}
     steps:
       - name: Resolve
         id: resolve
@@ -32,15 +33,17 @@ jobs:
               TYPE=release
               ;;
             *)
-              TYPE=development
+              TYPE=dev
               ;;
           esac
 
-          ARTIFACT="build-$VERSION"
+          ARTIFACT="$TYPE-$VERSION"
+          ID="$ARTIFACT-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
 
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "type=$TYPE" >> "$GITHUB_OUTPUT"
           echo "artifact=$ARTIFACT" >> "$GITHUB_OUTPUT"
+          echo "id=$ID" >> "$GITHUB_OUTPUT"
 
   build:
     name: Build
@@ -84,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     needs: [meta, build]
-    if: ${{ needs.meta.outputs.type == 'development' && !inputs.skip-development }}
+    if: ${{ needs.meta.outputs.type == 'dev' && !inputs.skip-development }}
 
     steps:
       - name: Download artifact
