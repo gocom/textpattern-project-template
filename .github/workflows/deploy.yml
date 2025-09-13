@@ -114,7 +114,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: staging
     needs: [meta, build]
-    if: ${{ needs.meta.outputs.type == 'release' && !inputs.skip-staging }}
+    if: ${{ (needs.meta.outputs.type == 'release' || vars.DEPLOY_REQUIRE_RELEASE != 'true') && !inputs.skip-staging }}
 
     steps:
       - name: Download artifact
@@ -141,7 +141,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     needs: [meta, build, deploy-staging]
-    if: ${{ always() && !failure() && !cancelled() && needs.meta.outputs.type == 'release' }}
+    if: ${{ always() && !failure() && !cancelled() && (needs.meta.outputs.type == 'release' || vars.DEPLOY_REQUIRE_RELEASE != 'true') }}
 
     steps:
       - name: Download artifact
