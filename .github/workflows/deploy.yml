@@ -3,7 +3,7 @@ name: Deploy
 on:
   workflow_dispatch:
     inputs:
-      run:
+      run-id:
         type: number
         description: Deploy artifact from run ID (optional)
       skip-development:
@@ -20,20 +20,27 @@ jobs:
     outputs:
       version: ${{ steps.resolve.outputs.version }}
       type: ${{ steps.resolve.outputs.type }}
+      artifact: ${{ steps.resolve.outputs.artifact }}
     steps:
       - name: Resolve
         id: resolve
         run: |
-          echo "version=$(basename "$GITHUB_REF")" >> "$GITHUB_OUTPUT"
+          VERSION="$(basename "$GITHUB_REF")"
 
           case "$GITHUB_REF" in
             "refs/tags/"*|"refs/heads/release/"*)
-              echo "type=release" >> "$GITHUB_OUTPUT"
+              TYPE=release
               ;;
             *)
-              echo "type=development" >> "$GITHUB_OUTPUT"
+              TYPE=development
               ;;
           esac
+
+          ARTIFACT="build-$VERSION"
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "type=$TYPE" >> "$GITHUB_OUTPUT"
+          echo "artifact=$ARTIFACT" >> "$GITHUB_OUTPUT"
 
   build:
     name: Build
@@ -47,18 +54,19 @@ jobs:
 
       - name: Build ${{ needs.meta.outputs.version }}
         run: mkdir -p build && touch build/index
-        if: ${{ !inputs.run }}
+        if: ${{ !inputs.run-id }}
 
       - name: Fetch artifact
         uses: actions/download-artifact@v5
         with:
-          run-id: ${{ inputs.run }}
-        if: ${{ !!inputs.run }}
+          name: ${{ needs.meta.outputs.artifact }}
+          run-id: ${{ inputs.run-id }}
+        if: ${{ !!inputs.run-id }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build
+          name: ${{ needs.meta.outputs.artifact }}
           path: build
           if-no-files-found: warn
           include-hidden-files: true
@@ -73,6 +81,9 @@ jobs:
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v5
+        with:
+          name: ${{ needs.meta.outputs.artifact }}
+          path: build
 
       - name: Deploy artifact
         run: ls -R
@@ -87,6 +98,9 @@ jobs:
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v5
+        with:
+          name: ${{ needs.meta.outputs.artifact }}
+          path: build
 
       - name: Deploy artifact
         run: ls -R
@@ -101,6 +115,9 @@ jobs:
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v5
+        with:
+          name: ${{ needs.meta.outputs.artifact }}
+          path: build
 
       - name: Deploy artifact
         run: ls -R
