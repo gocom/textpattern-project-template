@@ -51,15 +51,17 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Build ${{ needs.meta.outputs.version }}
-        run: mkdir -p build && touch build/index
         if: ${{ !inputs.run-id }}
 
-      - name: Fetch artifact
+      - name: Build artifact
+        run: mkdir -p build && touch build/index && tar czf artifact.tar.gz .
+        if: ${{ !inputs.run-id }}
+
+      - name: Check artifact from previous run
         uses: actions/download-artifact@v5
         with:
           name: ${{ needs.meta.outputs.artifact }}
+          path: build
           run-id: ${{ inputs.run-id }}
           github-token: ${{ github.token }}
         if: ${{ !!inputs.run-id }}
@@ -69,8 +71,9 @@ jobs:
         with:
           name: ${{ needs.meta.outputs.artifact }}
           path: build
-          if-no-files-found: warn
+          if-no-files-found: error
           include-hidden-files: true
+        if: ${{ !inputs.run-id }}
 
   deploy-development:
     name: Deploy to development
@@ -85,6 +88,8 @@ jobs:
         with:
           name: ${{ needs.meta.outputs.artifact }}
           path: build
+          run-id: ${{ inputs.run-id }}
+          github-token: ${{ github.token }}
 
       - name: Deploy artifact
         run: ls -R
@@ -102,6 +107,8 @@ jobs:
         with:
           name: ${{ needs.meta.outputs.artifact }}
           path: build
+          run-id: ${{ inputs.run-id }}
+          github-token: ${{ github.token }}
 
       - name: Deploy artifact
         run: ls -R
@@ -119,6 +126,8 @@ jobs:
         with:
           name: ${{ needs.meta.outputs.artifact }}
           path: build
+          run-id: ${{ inputs.run-id }}
+          github-token: ${{ github.token }}
 
       - name: Deploy artifact
         run: ls -R
