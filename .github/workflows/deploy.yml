@@ -96,8 +96,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     needs: [meta, build, deploy-staging]
-    if: ${{ always() && !failure() && !cancelled() }}
-    #if: ${{ needs.meta.outputs.type == 'release' }}
+    if: ${{ always() && !failure() && !cancelled() && needs.meta.outputs.type == 'release' }}
 
     steps:
       - name: Download artifact
