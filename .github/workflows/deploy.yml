@@ -54,14 +54,18 @@ jobs:
         if: ${{ !inputs.run-id }}
 
       - name: Build artifact
-        run: mkdir -p build && touch build/index && tar czf artifact.tar.gz .
+        run: mkdir -p build && touch build/index
+        if: ${{ !inputs.run-id }}
+
+      - name: Package artifact
+        run: tar czf build.tar.gz build && mkdir -p artifact && mv build.tar.gz artifact/
         if: ${{ !inputs.run-id }}
 
       - name: Check artifact from previous run
         uses: actions/download-artifact@v5
         with:
           name: ${{ needs.meta.outputs.artifact }}
-          path: build
+          path: artifact
           run-id: ${{ inputs.run-id }}
           github-token: ${{ github.token }}
         if: ${{ !!inputs.run-id }}
@@ -70,7 +74,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ needs.meta.outputs.artifact }}
-          path: build
+          path: artifact
           if-no-files-found: error
           include-hidden-files: true
         if: ${{ !inputs.run-id }}
@@ -87,7 +91,7 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: ${{ needs.meta.outputs.artifact }}
-          path: build
+          path: artifact
           run-id: ${{ inputs.run-id }}
           github-token: ${{ github.token }}
 
@@ -106,7 +110,7 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: ${{ needs.meta.outputs.artifact }}
-          path: build
+          path: artifact
           run-id: ${{ inputs.run-id }}
           github-token: ${{ github.token }}
 
@@ -125,7 +129,7 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: ${{ needs.meta.outputs.artifact }}
-          path: build
+          path: artifact
           run-id: ${{ inputs.run-id }}
           github-token: ${{ github.token }}
 
