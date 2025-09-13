@@ -92,8 +92,16 @@ jobs:
         with:
           name: ${{ needs.meta.outputs.artifact }}
           path: artifact
+        if: ${{ !inputs.run-id }}
+
+      - name: Fetch artifact from previous run
+        uses: actions/download-artifact@v5
+        with:
+          name: ${{ needs.meta.outputs.artifact }}
+          path: artifact
           run-id: ${{ inputs.run-id }}
           github-token: ${{ github.token }}
+        if: ${{ !!inputs.run-id }}
 
       - name: Deploy artifact
         run: ls -R
@@ -111,8 +119,16 @@ jobs:
         with:
           name: ${{ needs.meta.outputs.artifact }}
           path: artifact
+        if: ${{ !inputs.run-id }}
+
+      - name: Fetch artifact from previous run
+        uses: actions/download-artifact@v5
+        with:
+          name: ${{ needs.meta.outputs.artifact }}
+          path: artifact
           run-id: ${{ inputs.run-id }}
           github-token: ${{ github.token }}
+        if: ${{ !!inputs.run-id }}
 
       - name: Deploy artifact
         run: ls -R
@@ -130,8 +146,16 @@ jobs:
         with:
           name: ${{ needs.meta.outputs.artifact }}
           path: artifact
+        if: ${{ !inputs.run-id }}
+
+      - name: Fetch artifact from previous run
+        uses: actions/download-artifact@v5
+        with:
+          name: ${{ needs.meta.outputs.artifact }}
+          path: artifact
           run-id: ${{ inputs.run-id }}
           github-token: ${{ github.token }}
+        if: ${{ !!inputs.run-id }}
 
       - name: Deploy artifact
         run: ls -R
