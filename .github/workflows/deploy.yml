@@ -38,7 +38,7 @@ jobs:
 
           ARTIFACT="build-$VERSION"
 
-          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "type=$TYPE" >> "$GITHUB_OUTPUT"
           echo "artifact=$ARTIFACT" >> "$GITHUB_OUTPUT"
 
