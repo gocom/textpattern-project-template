@@ -116,6 +116,7 @@ jobs:
     uses: ./.github/workflows/reusable-deploy-to-environment.yml
     with:
       run-id: ${{ inputs.run-id }}
+      artifact: ${{ needs.meta.outputs.artifact }}
       environment: staging
     secrets: inherit
 
