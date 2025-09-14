@@ -111,30 +111,13 @@ jobs:
 
   deploy-staging:
     name: Deploy to staging
-    runs-on: ubuntu-latest
-    environment: staging
     needs: [meta, build]
     if: ${{ needs.meta.outputs.type == 'release' && !inputs.skip-staging }}
-
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v5
-        with:
-          name: ${{ needs.meta.outputs.artifact }}
-          path: artifact
-        if: ${{ !inputs.run-id }}
-
-      - name: Fetch artifact from previous run
-        uses: actions/download-artifact@v5
-        with:
-          name: ${{ needs.meta.outputs.artifact }}
-          path: artifact
-          run-id: ${{ inputs.run-id }}
-          github-token: ${{ github.token }}
-        if: ${{ !!inputs.run-id }}
-
-      - name: Deploy artifact
-        run: ls -R
+    uses: ./.github/workflows/reusable-deploy-to-environment.yml
+    with:
+      run-id: ${{ inputs.run-id }}
+      environment: staging
+    secrets: inherit
 
   deploy-production:
     name: Deploy to production

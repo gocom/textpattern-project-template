@@ -1,0 +1,39 @@
+name: Deploy to environment
+
+on:
+  workflow_call:
+    inputs:
+      run-id:
+        type: number
+      artifact:
+        type: string
+        required: true
+      environment:
+        type: string
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy to ${{ inputs.environment }}
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: ${{ inputs.artifact }}
+          path: artifact
+        if: ${{ !inputs.run-id }}
+
+      - name: Fetch artifact from previous run
+        uses: actions/download-artifact@v5
+        with:
+          name: ${{ inputs.artifact }}
+          path: artifact
+          run-id: ${{ inputs.run-id }}
+          github-token: ${{ github.token }}
+        if: ${{ !!inputs.run-id }}
+
+      - name: Deploy artifact
+        run: ls -R
