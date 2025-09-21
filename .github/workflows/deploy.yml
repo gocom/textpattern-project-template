@@ -2,44 +2,25 @@ name: Deploy
 
 on:
   workflow_dispatch:
-    inputs:
-      run-id:
-        type: number
-        description: Deploy artifact from run ID (optional)
-      skip-development:
-        type: boolean
-        description: Skip development environment
-      skip-staging:
-        type: boolean
-        description: Skip staging environment
 
 jobs:
-  meta:
-    uses: ./.github/workflows/release-meta.yml
-
   build:
     uses: ./.github/workflows/release-build.yml
 
   deploy-development:
     uses: ./.github/workflows/release-deploy.yml
     with:
-      run-id: ${{ inputs.run-id }}
       environment: development
-    needs: [meta, build]
-    if: ${{ needs.meta.outputs.type == 'dev' && !inputs.skip-development }}
+    needs: [build]
 
   deploy-staging:
     uses: ./.github/workflows/release-deploy.yml
     with:
-      run-id: ${{ inputs.run-id }}
       environment: staging
-    needs: [meta, build]
-    if: ${{ needs.meta.outputs.type == 'dev' && !inputs.skip-staging }}
+    needs: [build]
 
   deploy-production:
     uses: ./.github/workflows/release-deploy.yml
     with:
-      run-id: ${{ inputs.run-id }}
       environment: production
-    needs: [ meta, build ]
-    if: ${{ always() && !failure() && !cancelled() && needs.meta.outputs.type == 'release' }}
+    needs: [build]
