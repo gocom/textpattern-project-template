@@ -1,4 +1,4 @@
-name: Deploy
+name: 🚀 Deploy
 
 on:
   workflow_dispatch:
@@ -22,6 +22,7 @@ jobs:
     with:
       environment: development
       artifact: ${{ needs.meta.outputs.artifact }}
+    if: ${{ needs.meta.outputs.type == 'dev' }}
 
   deploy-staging:
     name: Staging
@@ -30,6 +31,7 @@ jobs:
     with:
       environment: staging
       artifact: ${{ needs.meta.outputs.artifact }}
+    if: ${{ needs.meta.outputs.type == 'release' }}
 
   deploy-production:
     name: Production
@@ -38,3 +40,4 @@ jobs:
     with:
       environment: production
       artifact: ${{ needs.meta.outputs.artifact }}
+    if: ${{ needs.meta.outputs.type == 'release' }}

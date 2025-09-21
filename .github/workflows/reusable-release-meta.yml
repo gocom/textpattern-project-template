@@ -1,4 +1,4 @@
-name: Reusable / Release / Meta
+name: 🛠️ Reusable / Release / Meta
 
 on:
   workflow_call:
