@@ -28,20 +28,20 @@ jobs:
     uses: ./.github/workflows/release-meta.yml
 
   deploy:
-    name: Deploy to ${{ inputs.environment }}
+    name: Deploy
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     needs: [meta]
 
     steps:
-      - name: Download artifact
+      - name: Download artifact from current run
         uses: actions/download-artifact@v5
         with:
           name: ${{ needs.meta.outputs.artifact }}
           path: artifact
         if: ${{ !inputs.run-id }}
 
-      - name: Fetch artifact from previous run
+      - name: Download artifact from previous run
         uses: actions/download-artifact@v5
         with:
           name: ${{ needs.meta.outputs.artifact }}
