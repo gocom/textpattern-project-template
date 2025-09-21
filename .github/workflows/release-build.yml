@@ -8,7 +8,7 @@ jobs:
     name: Meta
     uses: ./.github/workflows/reusable-release-meta.yml
 
-  build:
+  release:
     name: Release
     uses: ./.github/workflows/reusable-release-build.yml
     needs: [meta]

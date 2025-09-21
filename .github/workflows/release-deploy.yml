@@ -17,8 +17,8 @@ jobs:
     name: Meta
     uses: ./.github/workflows/reusable-release-meta.yml
 
-  deploy:
-    name: Deploy to ${{ inputs.environment }}
+  release:
+    name: Release
     uses: ./.github/workflows/reusable-release-deploy.yml
     needs: [meta]
     with:
