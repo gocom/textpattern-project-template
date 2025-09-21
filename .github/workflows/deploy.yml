@@ -5,21 +5,25 @@ on:
 
 jobs:
   build:
+    name: Release
     uses: ./.github/workflows/release-build.yml
 
   deploy-development:
+    name: Development
     uses: ./.github/workflows/release-deploy.yml
     with:
       environment: development
     needs: [build]
 
   deploy-staging:
+    name: Staging
     uses: ./.github/workflows/release-deploy.yml
     with:
       environment: staging
     needs: [build]
 
   deploy-production:
+    name: Production
     uses: ./.github/workflows/release-deploy.yml
     with:
       environment: production
