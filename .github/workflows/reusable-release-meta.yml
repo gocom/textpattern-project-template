@@ -27,7 +27,6 @@ jobs:
       id: ${{ steps.resolve.outputs.id }}
     steps:
       - name: Resolve
-        id: resolve
         run: |
           VERSION="$(basename "$GITHUB_REF")"
 

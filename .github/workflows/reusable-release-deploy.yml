@@ -41,3 +41,15 @@ jobs:
 
       - name: Deploy artifact
         run: ls -R
+
+      - name: Deploy summary
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+          TYPE: ${{ steps.meta.outputs.type }}
+          ARTIFACT: ${{ inputs.artifact }}
+          RUN_ID: ${{ inputs.run-id || github.run_id }}
+          ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          echo "# 🚀 Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Deployed artifact `$ARTIFACT` from run `$RUN_ID` to **$ENVIRONMENT** environment." >> $GITHUB_STEP_SUMMARY
