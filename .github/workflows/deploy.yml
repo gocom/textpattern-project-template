@@ -15,150 +15,31 @@ on:
 
 jobs:
   meta:
-    name: Get metadata
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.resolve.outputs.version }}
-      type: ${{ steps.resolve.outputs.type }}
-      artifact: ${{ steps.resolve.outputs.artifact }}
-      id: ${{ steps.resolve.outputs.id }}
-    steps:
-      - name: Resolve
-        id: resolve
-        run: |
-          VERSION="$(basename "$GITHUB_REF")"
-
-          case "$GITHUB_REF" in
-            "refs/tags/"*|"refs/heads/release/"*)
-              TYPE=release
-              ;;
-            *)
-              TYPE=dev
-              ;;
-          esac
-
-          ARTIFACT="$TYPE-$VERSION"
-          ID="$ARTIFACT-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
-
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "type=$TYPE" >> "$GITHUB_OUTPUT"
-          echo "artifact=$ARTIFACT" >> "$GITHUB_OUTPUT"
-          echo "id=$ID" >> "$GITHUB_OUTPUT"
+    uses: ./.github/workflows/release-meta.yml
 
   build:
-    name: Build
-    runs-on: ubuntu-latest
-    needs: meta
-
-    steps:
-
-      - name: Checkout
-        uses: actions/checkout@v3
-        if: ${{ !inputs.run-id }}
-
-      - name: Build artifact
-        run: mkdir -p build && touch build/index
-        if: ${{ !inputs.run-id }}
-
-      - name: Package artifact
-        run: tar czf build.tar.gz build && mkdir -p artifact && mv build.tar.gz artifact/
-        if: ${{ !inputs.run-id }}
-
-      - name: Check artifact from previous run
-        uses: actions/download-artifact@v5
-        with:
-          name: ${{ needs.meta.outputs.artifact }}
-          path: artifact
-          run-id: ${{ inputs.run-id }}
-          github-token: ${{ github.token }}
-        if: ${{ !!inputs.run-id }}
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ needs.meta.outputs.artifact }}
-          path: artifact
-          if-no-files-found: error
-          include-hidden-files: true
-        if: ${{ !inputs.run-id }}
+    uses: ./.github/workflows/release-build.yml
 
   deploy-development:
-    name: Deploy to development
-    runs-on: ubuntu-latest
-    environment: development
+    uses: ./.github/workflows/release-deploy.yml
+    with:
+      run-id: ${{ inputs.run-id }}
+      environment: development
     needs: [meta, build]
     if: ${{ needs.meta.outputs.type == 'dev' && !inputs.skip-development }}
 
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v5
-        with:
-          name: ${{ needs.meta.outputs.artifact }}
-          path: artifact
-        if: ${{ !inputs.run-id }}
-
-      - name: Fetch artifact from previous run
-        uses: actions/download-artifact@v5
-        with:
-          name: ${{ needs.meta.outputs.artifact }}
-          path: artifact
-          run-id: ${{ inputs.run-id }}
-          github-token: ${{ github.token }}
-        if: ${{ !!inputs.run-id }}
-
-      - name: Deploy artifact
-        run: ls -R
-
   deploy-staging:
-    name: Deploy to staging
-    runs-on: ubuntu-latest
-    environment: staging
+    uses: ./.github/workflows/release-deploy.yml
+    with:
+      run-id: ${{ inputs.run-id }}
+      environment: staging
     needs: [meta, build]
-    if: ${{ needs.meta.outputs.type == 'release' && !inputs.skip-staging }}
-
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v5
-        with:
-          name: ${{ needs.meta.outputs.artifact }}
-          path: artifact
-        if: ${{ !inputs.run-id }}
-
-      - name: Fetch artifact from previous run
-        uses: actions/download-artifact@v5
-        with:
-          name: ${{ needs.meta.outputs.artifact }}
-          path: artifact
-          run-id: ${{ inputs.run-id }}
-          github-token: ${{ github.token }}
-        if: ${{ !!inputs.run-id }}
-
-      - name: Deploy artifact
-        run: ls -R
+    if: ${{ needs.meta.outputs.type == 'dev' && !inputs.skip-staging }}
 
   deploy-production:
-    name: Deploy to production
-    runs-on: ubuntu-latest
-    environment: production
-    needs: [meta, build, deploy-staging]
+    uses: ./.github/workflows/release-deploy.yml
+    with:
+      run-id: ${{ inputs.run-id }}
+      environment: production
+    needs: [ meta, build ]
     if: ${{ always() && !failure() && !cancelled() && needs.meta.outputs.type == 'release' }}
-
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v5
-        with:
-          name: ${{ needs.meta.outputs.artifact }}
-          path: artifact
-        if: ${{ !inputs.run-id }}
-
-      - name: Fetch artifact from previous run
-        uses: actions/download-artifact@v5
-        with:
-          name: ${{ needs.meta.outputs.artifact }}
-          path: artifact
-          run-id: ${{ inputs.run-id }}
-          github-token: ${{ github.token }}
-        if: ${{ !!inputs.run-id }}
-
-      - name: Deploy artifact
-        run: ls -R

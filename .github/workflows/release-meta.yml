@@ -1,0 +1,74 @@
+name: Release / Meta
+
+on:
+  workflow_call:
+    outputs:
+      version:
+        description: "Release version"
+        value: ${{ jobs.meta.outputs.version }}
+      type:
+        description: "Release type, either dev or release"
+        value: ${{ jobs.meta.outputs.type }}
+      artifact:
+        description: "Generated artifact name"
+        value: ${{ jobs.meta.outputs.artifact }}
+      id:
+        description: "Release identifier"
+        value: ${{ jobs.meta.outputs.id }}
+  workflow_dispatch:
+
+jobs:
+  meta:
+    name: Get metadata
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.resolve.outputs.version }}
+      type: ${{ steps.resolve.outputs.type }}
+      artifact: ${{ steps.resolve.outputs.artifact }}
+      id: ${{ steps.resolve.outputs.id }}
+    steps:
+      - name: Resolve
+        id: resolve
+        run: |
+          VERSION="$(basename "$GITHUB_REF")"
+
+          case "$GITHUB_REF" in
+            "refs/tags/"*|"refs/heads/release/"*)
+              TYPE=release
+              ;;
+            *)
+              TYPE=dev
+              ;;
+          esac
+
+          ARTIFACT="$TYPE-$VERSION"
+          ID="$ARTIFACT-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "type=$TYPE" >> "$GITHUB_OUTPUT"
+          echo "artifact=$ARTIFACT" >> "$GITHUB_OUTPUT"
+          echo "id=$ID" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [meta]
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build artifact
+        run: mkdir -p build && touch build/index
+
+      - name: Package artifact
+        run: tar czf build.tar.gz build && mkdir -p artifact && mv build.tar.gz artifact/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ needs.meta.outputs.artifact }}
+          path: artifact
+          if-no-files-found: error
+          include-hidden-files: true
