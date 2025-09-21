@@ -33,7 +33,10 @@ jobs:
           include-hidden-files: true
 
       - name: Build summary
+        env:
+          ARTIFACT: ${{ inputs.artifact }}
+          RUN_ID: ${{ github.run_id }}
         run: |
           echo "# 📦 Release" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Built artifact `${{ inputs.artifact }}` via run `${{ github.run_id }}`." >> $GITHUB_STEP_SUMMARY
+          echo "Built artifact \`$ARTIFACT\` via run \`$RUN_ID\`." >> $GITHUB_STEP_SUMMARY
