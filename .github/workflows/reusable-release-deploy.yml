@@ -1,0 +1,43 @@
+name: Reusable / Release / Deploy
+
+on:
+  workflow_call:
+    inputs:
+      run-id:
+        type: number
+        description: Deploy artifact from run ID
+        required: false
+      environment:
+        type: string
+        description: Environment deploy to
+        required: true
+      artifact:
+        type: string
+        description: Artifact name
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Download artifact from current run
+        uses: actions/download-artifact@v5
+        with:
+          name: ${{ inputs.artifact }}
+          path: artifact
+        if: ${{ !inputs.run-id }}
+
+      - name: Download artifact from previous run
+        uses: actions/download-artifact@v5
+        with:
+          name: ${{ inputs.artifact }}
+          path: artifact
+          run-id: ${{ inputs.run-id }}
+          github-token: ${{ github.token }}
+        if: ${{ !!inputs.run-id }}
+
+      - name: Deploy artifact
+        run: ls -R

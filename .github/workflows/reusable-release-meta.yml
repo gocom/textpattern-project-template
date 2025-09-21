@@ -1,19 +1,19 @@
-name: Release / Meta
+name: Reusable / Release / Meta
 
 on:
   workflow_call:
     outputs:
       version:
-        description: "Release version"
+        description: Release version
         value: ${{ jobs.meta.outputs.version }}
       type:
-        description: "Release type, either dev or release"
+        description: Release type, either dev or release
         value: ${{ jobs.meta.outputs.type }}
       artifact:
-        description: "Generated artifact name"
+        description: Generated artifact name
         value: ${{ jobs.meta.outputs.artifact }}
       id:
-        description: "Release identifier"
+        description: Release identifier
         value: ${{ jobs.meta.outputs.id }}
 
 jobs:

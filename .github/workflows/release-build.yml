@@ -1,34 +1,16 @@
 name: Release / Build
 
 on:
-  workflow_call:
   workflow_dispatch:
 
 jobs:
   meta:
     name: Meta
-    uses: ./.github/workflows/release-meta.yml
+    uses: ./.github/workflows/reusable-release-meta.yml
 
   build:
-    name: Build
-    runs-on: ubuntu-latest
+    name: Deploy
+    uses: ./.github/workflows/reusable-release-build.yml
     needs: [meta]
-
-    steps:
-
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Build artifact
-        run: mkdir -p build && touch build/index
-
-      - name: Package artifact
-        run: tar czf build.tar.gz build && mkdir -p artifact && mv build.tar.gz artifact/
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ needs.meta.outputs.artifact }}
-          path: artifact
-          if-no-files-found: error
-          include-hidden-files: true
+    with:
+      artifact: ${{ needs.meta.outputs.artifact }}

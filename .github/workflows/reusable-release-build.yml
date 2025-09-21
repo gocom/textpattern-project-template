@@ -1,0 +1,33 @@
+name: Reusable / Release / Build
+
+on:
+  workflow_call:
+    inputs:
+      artifact:
+        type: string
+        description: Artifact name
+        required: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build artifact
+        run: mkdir -p build && touch build/index
+
+      - name: Package artifact
+        run: tar czf build.tar.gz build && mkdir -p artifact && mv build.tar.gz artifact/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifact }}
+          path: artifact
+          if-no-files-found: error
+          include-hidden-files: true

@@ -4,27 +4,37 @@ on:
   workflow_dispatch:
 
 jobs:
+  meta:
+    name: Meta
+    uses: ./.github/workflows/reusable-release-meta.yml
+
   build:
     name: Release
-    uses: ./.github/workflows/release-build.yml
+    uses: ./.github/workflows/reusable-release-build.yml
+    needs: [meta]
+    with:
+      artifact: ${{ needs.meta.outputs.artifact }}
 
   deploy-development:
     name: Development
-    uses: ./.github/workflows/release-deploy.yml
+    uses: ./.github/workflows/reusable-release-deploy.yml
+    needs: [meta, build]
     with:
       environment: development
-    needs: [build]
+      artifact: ${{ needs.meta.outputs.artifact }}
 
   deploy-staging:
     name: Staging
-    uses: ./.github/workflows/release-deploy.yml
+    uses: ./.github/workflows/reusable-release-deploy.yml
+    needs: [meta, build]
     with:
       environment: staging
-    needs: [build]
+      artifact: ${{ needs.meta.outputs.artifact }}
 
   deploy-production:
     name: Production
-    uses: ./.github/workflows/release-deploy.yml
+    uses: ./.github/workflows/reusable-release-deploy.yml
+    needs: [meta, build, deploy-staging]
     with:
       environment: production
-    needs: [build]
+      artifact: ${{ needs.meta.outputs.artifact }}
