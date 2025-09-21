@@ -15,7 +15,6 @@ on:
       id:
         description: "Release identifier"
         value: ${{ jobs.meta.outputs.id }}
-  workflow_dispatch:
 
 jobs:
   meta:
@@ -48,27 +47,3 @@ jobs:
           echo "type=$TYPE" >> "$GITHUB_OUTPUT"
           echo "artifact=$ARTIFACT" >> "$GITHUB_OUTPUT"
           echo "id=$ID" >> "$GITHUB_OUTPUT"
-
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    needs: [meta]
-
-    steps:
-
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Build artifact
-        run: mkdir -p build && touch build/index
-
-      - name: Package artifact
-        run: tar czf build.tar.gz build && mkdir -p artifact && mv build.tar.gz artifact/
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ needs.meta.outputs.artifact }}
-          path: artifact
-          if-no-files-found: error
-          include-hidden-files: true

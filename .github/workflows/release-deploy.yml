@@ -24,6 +24,7 @@ on:
 
 jobs:
   meta:
+    name: Meta
     uses: ./.github/workflows/release-meta.yml
 
   deploy:
