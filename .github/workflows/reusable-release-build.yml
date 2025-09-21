@@ -32,12 +32,11 @@ jobs:
           if-no-files-found: error
           include-hidden-files: true
 
-      - name: Release summary
+      - name: Build summary
         env:
-          TYPE: ${{ steps.meta.outputs.type }}
-          ARTIFACT: ${{ steps.meta.outputs.artifact }}
+          ARTIFACT: ${{ inputs.artifact }}
           RUN_ID: ${{ github.run_id }}
         run: |
           echo "# 📦 Release" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Built artifact `$ARTIFACT` via run `$RUN_ID` of type `$TYPE`." >> $GITHUB_STEP_SUMMARY
+          echo "Built artifact `$ARTIFACT` via run `$RUN_ID`." >> $GITHUB_STEP_SUMMARY

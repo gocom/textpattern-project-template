@@ -44,8 +44,6 @@ jobs:
 
       - name: Deploy summary
         env:
-          VERSION: ${{ steps.meta.outputs.version }}
-          TYPE: ${{ steps.meta.outputs.type }}
           ARTIFACT: ${{ inputs.artifact }}
           RUN_ID: ${{ inputs.run-id || github.run_id }}
           ENVIRONMENT: ${{ inputs.environment }}
