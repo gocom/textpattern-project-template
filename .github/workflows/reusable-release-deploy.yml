@@ -48,6 +48,4 @@ jobs:
           RUN_ID: ${{ inputs.run-id || github.run_id }}
           ENVIRONMENT: ${{ inputs.environment }}
         run: |
-          echo "# 🚀 Deployment summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Deployed artifact \`$ARTIFACT\` from run \`$RUN_ID\` to **$ENVIRONMENT** environment." >> $GITHUB_STEP_SUMMARY
+          echo "🚀 Deployed artifact \`$ARTIFACT\` from run \`$RUN_ID\` to environment \`$ENVIRONMENT\`." >> $GITHUB_STEP_SUMMARY

@@ -37,6 +37,4 @@ jobs:
           ARTIFACT: ${{ inputs.artifact }}
           RUN_ID: ${{ github.run_id }}
         run: |
-          echo "# 📦 Build summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Built artifact \`$ARTIFACT\` via run \`$RUN_ID\`." >> $GITHUB_STEP_SUMMARY
+          echo "📦 Built artifact \`$ARTIFACT\` via run \`$RUN_ID\`." >> $GITHUB_STEP_SUMMARY
