@@ -1,4 +1,4 @@
-.PHONY: artifact help start stop clean create-env require-install install setup shell build hosts
+.PHONY: artifact deploy help start stop clean create-env require-install install setup shell build hosts
 .ONESHELL:
 .SHELLFLAGS = -ec
 
@@ -82,11 +82,22 @@ artifact: create-env
 	cp -R themes build
 	cp -R public/assets build/public
 
+deploy:
+	echo "get build/public/textpattern/config.php $DEPLOY_REMOTE_PUBLIC_PATH/textpattern/config.php" | sftp "$DEPLOY_USER@$DEPLOY_HOST"
+	echo "put $DEPLOY_REMOTE_PUBLIC_PATH/textpattern/ build/public/textpattern/" | sftp "$DEPLOY_USER@$DEPLOY_HOST"
+	echo "put $DEPLOY_REMOTE_PATH/themes build/themes/" | sftp "$DEPLOY_USER@$DEPLOY_HOST"
+	rm -rf build/public/textpattern/config.php
+
 help:
 	@echo "Manage project"
 	@echo ""
 	@echo "Usage:"
-	@echo "  $$ make [command]"
+	@echo "  $$ make [command] ["
+	@echo "    DEPLOY_USER=<user>"
+	@echo "    DEPLOY_HOST=<host>"
+	@echo "    DEPLOY_REMOTE_PUBLIC_PATH=<directory>"
+	@echo "    DEPLOY_REMOTE_PATH=<directory>"
+	@echo "  ]"
 	@echo ""
 	@echo "Commands:"
 	@echo ""

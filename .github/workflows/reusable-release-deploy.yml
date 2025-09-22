@@ -39,8 +39,24 @@ jobs:
           github-token: ${{ github.token }}
         if: ${{ !!inputs.run-id }}
 
+      - name: Setup SSH
+        env:
+          DEPLOY_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "$DEPLOY_PRIVATE_KEY" > ~/.ssh/id_rsa
+          echo "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+        if: ${{ secrets.DEPLOY_PRIVATE_KEY && secrets.DEPLOY_KNOWN_HOSTS }}
+
       - name: Deploy artifact
-        run: ls -R
+        env:
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_REMOTE_PATH: ${{ secrets.DEPLOY_REMOTE_PATH }}
+          DEPLOY_REMOTE_PUBLIC_PATH: ${{ secrets.DEPLOY_REMOTE_PUBLIC_PATH }}
+        run: make deploy
+        if: ${{ secrets.DEPLOY_USER && secrets.DEPLOY_HOST && secrets.DEPLOY_REMOTE_PUBLIC_PATH }}
 
       - name: Deployment summary
         env:

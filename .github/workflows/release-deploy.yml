@@ -20,6 +20,7 @@ jobs:
   release:
     name: Release
     uses: ./.github/workflows/reusable-release-deploy.yml
+    secrets: inherit
     needs: [meta]
     with:
       run-id: ${{ inputs.run-id }}
