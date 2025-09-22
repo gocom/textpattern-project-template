@@ -11,6 +11,7 @@
 !.stylelintrc.json
 auth.json
 /build/
+/certificates/
 /coverage/
 /docker/data/
 /public/*

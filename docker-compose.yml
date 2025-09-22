@@ -1,4 +1,13 @@
 services:
+  self-signer:
+    image: ghcr.io/gocom/self-signer:0.2.0
+    volumes:
+      - ./certificates:/certificates
+    environment:
+      - DOMAIN
+      - HOST_UID
+      - HOST_GID
+
   reverse-proxy:
     image: nginx:mainline
     ports:
@@ -6,12 +15,22 @@ services:
       - "127.0.0.1:443:443"
     volumes:
       - ./docker/image/reverse-proxy/nginx.conf:/etc/nginx/nginx.conf
+      - ./certificates:/certificates
     networks:
-      - proxy
+      proxy:
+        aliases:
+          - ${DOMAIN}
+          - mailhog.${DOMAIN}
+          - phpmyadmin.${DOMAIN}
     depends_on:
-      - nginx
-      - phpmyadmin
-      - mailhog
+      self-signer:
+        condition: service_completed_successfully
+      nginx:
+        condition: service_started
+      phpmyadmin:
+        condition: service_started
+      mailhog:
+        condition: service_started
 
   nginx:
     image: nginx:mainline
@@ -19,10 +38,8 @@ services:
       - .:/var/www/html
       - ./docker/image/nginx/conf/site.conf:/etc/nginx/conf.d/site.conf
     networks:
-      proxy:
-      php:
-        aliases:
-          - ${DOMAIN}
+      - proxy
+      - php
     depends_on:
       - php
 

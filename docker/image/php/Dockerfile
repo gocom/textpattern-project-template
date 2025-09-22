@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.3-fpm
 
 RUN apt-get update && apt-get install -y \
     bash \
@@ -18,11 +18,11 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 
 RUN git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached \
     && cd /usr/src/php/ext/memcached \
-    && git checkout v3.2.0 \
+    && git checkout v3.3.0 \
     && docker-php-ext-configure memcached \
     && docker-php-ext-install memcached
 
-COPY --from=composer:2.3 /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:2.8 /usr/bin/composer /usr/local/bin/composer
 COPY --from=atkrad/wait4x:latest /usr/bin/wait4x /usr/local/bin/wait4x
 COPY ./bin/ /usr/local/bin/
 COPY ./conf/ /usr/local/etc/php/conf.d/

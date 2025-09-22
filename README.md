@@ -10,9 +10,9 @@ Services
 
 Once installed, different local services can be found at:
 
-* Texpattern CMS: [http://projectname.test/](http://projectname.test/)
-* Mailhog: [http://mailhog.projectname.test/](http://mailhog.projectname.test/)
-* phpmyadmin: [http://phpmyadmin.projectname.test/](http://phpmyadmin.projectname.test/)
+* Texpattern CMS: [https://projectname.test/](https://projectname.test/)
+* Mailhog: [https://mailhog.projectname.test/](https://mailhog.projectname.test/)
+* phpmyadmin: [https://phpmyadmin.projectname.test/](https://phpmyadmin.projectname.test/)
 
 Install
 -----
@@ -23,18 +23,30 @@ To set up the project, run:
 $ make install
 ```
 
-After that, run the following and add the output to your hosts file:
+If you want, the project's configuration can be customized, before running the setup, through a `.env` file. If the
+file does not exist yet in the project root directory, you can initialize one by running:
+
+```shell
+$ make create-env
+```
+
+### Set up hosts mapping
+
+After setting up, run the following and add the printed mapping output to your `/etc/hosts` file:
 
 ```shell
 $ make hosts
 ```
 
-Once the host mapping has been added, the hostname can be used to access the services and the
-Textpattern site. The project's hostname and other configuration can be changed
-by modifying `.env.template` for the project before running `make install`. The changes
-can be committed to the project's repository.
+This will allow you to access the project by the domain defined in the project's `.env` file.
 
-Usage
+### Set up self-signed root certificate
+
+The project generates self-signed certificates during the setup to offer HTTPS for the local Saleor installation. To
+make sure the self-signed works in your OS and web browser, add the `certificates/root-ca.pem` file to your Browser's
+or OS's trusted root certificates.
+
+Development
 -----
 
 To start installed project, run:
@@ -43,10 +55,19 @@ To start installed project, run:
 $ make start
 ```
 
-Development
------
+To stop:
 
-For list of available commands, run:
+```shell
+$ make stop
+```
+
+To uninstall:
+
+```shell
+$ make clean
+```
+
+For list of all available commands, run:
 
 ```shell
 $ make help

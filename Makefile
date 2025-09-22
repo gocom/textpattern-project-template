@@ -42,7 +42,7 @@ setup:
 	$(MAKE) build
 
 start: stop
-	$(COMPOSE) up -d
+	$(COMPOSE) up -d --remove-orphans --build
 
 stop:
 	docker-compose stop
@@ -100,14 +100,29 @@ help:
 	@echo ""
 	@echo "Commands:"
 	@echo ""
-	@echo "  $$ make install"
-	@echo "  Installs the project"
+	@echo "  $$ make artifact"
+	@echo "  Build deployment artifact"
+	@echo ""
+	@echo "  $$ make clean"
+	@echo "  Uninstall the project"
+	@echo ""
+	@echo "  $$ make create-env"
+	@echo "  Create environment configuration file"
+	@echo ""
+	@echo "  $$ make deploy"
+	@echo "  Deploy artifact"
 	@echo ""
 	@echo "  $$ make hosts"
 	@echo "  Prints hosts mapping"
 	@echo ""
-	@echo "  $$ make clean"
-	@echo "  Uninstall the project"
+	@echo "  $$ make install"
+	@echo "  Installs the project"
+	@echo ""
+	@echo "  $$ make lint"
+	@echo "  Run linters"
+	@echo ""
+	@echo "  $$ make shell"
+	@echo "  Login to PHP service"
 	@echo ""
 	@echo "  $$ make start"
 	@echo "  Starts the project"
@@ -115,15 +130,6 @@ help:
 	@echo "  $$ make stop"
 	@echo "  Stops the project"
 	@echo ""
-	@echo "  $$ make shell"
-	@echo "  Login to PHP service"
-	@echo ""
-	@echo "  $$ make lint"
-	@echo "  Run linters"
-	@echo ""
 	@echo "  $$ make test"
 	@echo "  Run test suite"
-	@echo ""
-	@echo "  $$ make artifact"
-	@echo "  Build deployment artifact"
 	@echo ""
