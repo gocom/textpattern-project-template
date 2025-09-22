@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -eu
+
+if [ -f .env ]; then
+    . ./.env
+fi
+
+echo "Fetch information from the server..."
+cat <<EOF | sftp "$DEPLOY_USER@$DEPLOY_HOST"
+get "$DEPLOY_REMOTE_PUBLIC_PATH/textpattern/config.php" "build/public/textpattern/config.php"
+ls "$DEPLOY_REMOTE_PUBLIC_PATH"
+EOF
+
+# TODO upload artifact to the server
+# TODO run Composer package install on the remote, if possible
+
+echo "Clean up..."
+rm -rf build/public/textpattern/config.php

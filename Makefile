@@ -79,14 +79,11 @@ artifact: create-env
 	mkdir -p build/public
 	$(BUILD) textpattern-download
 	$(MAKE) build
-	cp -R themes build
+	cp -R themes composer.json composer.lock build
 	cp -R public/assets build/public
 
-deploy:
-	echo "get build/public/textpattern/config.php $DEPLOY_REMOTE_PUBLIC_PATH/textpattern/config.php" | sftp "$DEPLOY_USER@$DEPLOY_HOST"
-	echo "put $DEPLOY_REMOTE_PUBLIC_PATH/textpattern/ build/public/textpattern/" | sftp "$DEPLOY_USER@$DEPLOY_HOST"
-	echo "put $DEPLOY_REMOTE_PATH/themes build/themes/" | sftp "$DEPLOY_USER@$DEPLOY_HOST"
-	rm -rf build/public/textpattern/config.php
+deploy: create-env
+	@./bin/deploy
 
 help:
 	@echo "Manage project"
@@ -97,6 +94,8 @@ help:
 	@echo "    DEPLOY_HOST=<host>"
 	@echo "    DEPLOY_REMOTE_PUBLIC_PATH=<directory>"
 	@echo "    DEPLOY_REMOTE_PATH=<directory>"
+	@echo "    HOST_UID=<uid>"
+	@echo "    HOST_GID=<gid>"
 	@echo "  ]"
 	@echo ""
 	@echo "Commands:"
