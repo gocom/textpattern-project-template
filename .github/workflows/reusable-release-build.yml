@@ -35,9 +35,12 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            icon_emoji: ":package:"
             text: ":building_construction: Building release artifact ${{ inputs.artifact }} from commit ${{ github.sha }} via run ${{ github.run_id }}."
             blocks:
               - type: "section"
+                unfurl_links: false
+                unfurl_media: false
                 text:
                   type: "mrkdwn"
                   text: ":building_construction: Building release artifact *${{ inputs.artifact }}* from commit <${{ env.COMMIT_URL }}|${{ github.sha }}> via run <${{ env.RUN_URL }}|${{ github.run_id }}>."
