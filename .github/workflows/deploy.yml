@@ -15,8 +15,8 @@ jobs:
     with:
       artifact: ${{ needs.meta.outputs.artifact }}
     secrets:
-      slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
-      slack-channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+      slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN || '' }}
+      slack-channel-id: ${{ secrets.SLACK_CHANNEL_ID || '' }}
 
   deploy-development:
     name: Development
