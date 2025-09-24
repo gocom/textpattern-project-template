@@ -30,7 +30,7 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: ":package: Building release artifact ${{ inputs.artifact }} via run ${{ github.run_id }}."
+            text: ":package: Building artifact ${{ inputs.artifact }} via run ${{ github.run_id }}."
             blocks:
               - type: "section"
                 text:
@@ -74,8 +74,6 @@ jobs:
 
       - name: Slack / Completed status
         uses: slackapi/slack-github-action@v2
-        env:
-          SLACK_ENABLED: ${{ !!secrets.SLACK_CHANNEL_ID && !!secrets.SLACK_BOT_TOKEN }}
         with:
           method: chat.update
           token: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -94,12 +92,11 @@ jobs:
                   - title: "Status"
                     short: true
                     value: "Completed"
-        if: ${{ success() && steps.slack.conclusion == 'success' && env.SLACK_ENABLED == 'true' }}
+        if: ${{ success() && steps.slack.conclusion == 'success' }}
+        continue-on-error: true
 
       - name: Slack / Failed status
         uses: slackapi/slack-github-action@v2
-        env:
-          SLACK_ENABLED: ${{ !!secrets.SLACK_CHANNEL_ID && !!secrets.SLACK_BOT_TOKEN }}
         with:
           method: chat.update
           token: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -118,4 +115,5 @@ jobs:
                   - title: "Status"
                     short: true
                     value: "Failed"
-        if: ${{ failure() && steps.slack.conclusion == 'success' && env.SLACK_ENABLED == 'true' }}
+        if: ${{ failure() && steps.slack.conclusion == 'success' }}
+        continue-on-error: true
