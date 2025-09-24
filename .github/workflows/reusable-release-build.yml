@@ -42,8 +42,8 @@ jobs:
                   - title: "Status"
                     short: true
                     value: "In Progress"
-          if: ${{ env.SLACK_ENABLED == 'true' }}
-          continue-on-error: true
+        if: ${{ env.SLACK_ENABLED == 'true' }}
+        continue-on-error: true
 
       - name: Print conclusion
         run: echo ${{ steps.slack.conclusion }}
