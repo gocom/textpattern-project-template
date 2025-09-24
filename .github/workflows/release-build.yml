@@ -12,6 +12,8 @@ jobs:
     name: Release
     uses: ./.github/workflows/reusable-release-build.yml
     needs: [meta]
-    secrets: inherit
     with:
       artifact: ${{ needs.meta.outputs.artifact }}
+    secrets:
+      slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+      slack-channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
