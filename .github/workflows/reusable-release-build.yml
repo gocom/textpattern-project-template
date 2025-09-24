@@ -20,7 +20,6 @@ jobs:
 
     env:
       RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-      COMMIT_URL: "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
       DEPLOY_WORKFLOW_URL: "${{ github.server_url }}/${{ github.repository }}/actions/workflows/release-deploy.yml"
 
     steps:
@@ -35,15 +34,14 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            icon_emoji: ":package:"
-            text: ":building_construction: Building release artifact ${{ inputs.artifact }} from commit ${{ github.sha }} via run ${{ github.run_id }}."
+            text: ":building_construction: Building release artifact ${{ inputs.artifact }} via run ${{ github.run_id }}."
             unfurl_links: false
             unfurl_media: false
             blocks:
               - type: "section"
                 text:
                   type: "mrkdwn"
-                  text: ":building_construction: Building release artifact *${{ inputs.artifact }}* from commit <${{ env.COMMIT_URL }}|${{ github.sha }}> via run <${{ env.RUN_URL }}|${{ github.run_id }}>."
+                  text: ":building_construction: Building release artifact *${{ inputs.artifact }}* via run <${{ env.RUN_URL }}|${{ github.run_id }}>."
             attachments:
               - color: "dbab09"
                 fields:
@@ -85,14 +83,14 @@ jobs:
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
             ts: "${{ steps.slack.outputs.ts }}"
-            text: ":tada: Built release artifact ${{ inputs.artifact }} from commit ${{ github.sha }} via run ${{ github.run_id }}."
+            text: ":tada: Built release artifact ${{ inputs.artifact }} via run ${{ github.run_id }}."
             unfurl_links: false
             unfurl_media: false
             blocks:
               - type: "section"
                 text:
                   type: "mrkdwn"
-                  text: ":tada: Built release artifact *${{ inputs.artifact }}* from commit <${{ env.COMMIT_URL }}|${{ github.sha }}> via run <${{ env.RUN_URL }}|${{ github.run_id }}>. Use `${{ github.run_id }}` as the *Run ID* in <${{ env.DEPLOY_WORKFLOW_URL }}|*Release / Deploy*> workflow to deploy it."
+                  text: ":tada: Built release artifact *${{ inputs.artifact }}* via run <${{ env.RUN_URL }}|${{ github.run_id }}>.\nUse `${{ github.run_id }}` as the *Run ID* in <${{ env.DEPLOY_WORKFLOW_URL }}|*Release / Deploy*> workflow to deploy it."
             attachments:
               - color: "28a745"
                 fields:
@@ -112,12 +110,12 @@ jobs:
             ts: "${{ steps.slack.outputs.ts }}"
             unfurl_links: false
             unfurl_media: false
-            text: ":package: Failed to build release artifact *${{ inputs.artifact }}* from commit ${{ github.sha }} via run ${{ github.run_id }}."
+            text: ":x: Failed to build release artifact ${{ inputs.artifact }} via run ${{ github.run_id }}."
             blocks:
               - type: "section"
                 text:
                   type: "mrkdwn"
-                  text: ":x: Failed to build release artifact *${{ inputs.artifact }}* from commit <${{ env.COMMIT_URL }}|${{ github.sha }}> via run <${{ env.RUN_URL }}|${{ github.run_id }}>."
+                  text: ":x: Failed to build release artifact *${{ inputs.artifact }}* via run <${{ env.RUN_URL }}|${{ github.run_id }}>."
             attachments:
               - color: "e54213"
                 fields:
