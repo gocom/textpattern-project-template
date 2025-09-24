@@ -45,6 +45,9 @@ jobs:
           if: ${{ env.SLACK_ENABLED == 'true' }}
           continue-on-error: true
 
+      - name: Print conclusion
+        run: echo ${{ steps.slack.conclusion }}
+
       - name: Checkout
         uses: actions/checkout@v3
 
