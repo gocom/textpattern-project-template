@@ -22,7 +22,7 @@ jobs:
         id: scan
         uses: anchore/scan-action@v6
         with:
-          path: ./composer.lock
+          image: "file:composer.lock"
           fail-build: false
 
       - name: Print report
