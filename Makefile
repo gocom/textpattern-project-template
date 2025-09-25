@@ -73,7 +73,7 @@ lint-fix: node_modules
 	$(NPM) run lint:fix
 
 hosts:
-	$(PHP) bin/hosts
+	$(PHP) ./dev/bin/hosts
 
 artifact: create-env
 	mkdir -p build/public
@@ -83,7 +83,7 @@ artifact: create-env
 	cp -R public/assets build/public
 
 deploy: create-env
-	@./bin/deploy
+	@./dev/bin/deploy
 
 help:
 	@echo "Manage project"
