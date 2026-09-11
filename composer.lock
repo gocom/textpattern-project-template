@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c6e35dfcf2f514d67e26ea7568eeace",
+    "content-hash": "1bb322725b5b787e0368b7cef897fb64",
     "packages": [
         {
             "name": "rah/rah_autoload",
@@ -163,16 +163,16 @@
         },
         {
             "name": "rah/rah_sitemap",
-            "version": "4.0.1",
+            "version": "4.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocom/rah_sitemap.git",
-                "reference": "41fd5dd7420718bd4a99109b7835fbb1a835e51d"
+                "reference": "55f365e33b3480259656f86f7454125b939a030b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocom/rah_sitemap/zipball/41fd5dd7420718bd4a99109b7835fbb1a835e51d",
-                "reference": "41fd5dd7420718bd4a99109b7835fbb1a835e51d",
+                "url": "https://api.github.com/repos/gocom/rah_sitemap/zipball/55f365e33b3480259656f86f7454125b939a030b",
+                "reference": "55f365e33b3480259656f86f7454125b939a030b",
                 "shasum": ""
             },
             "require": {
@@ -209,24 +209,24 @@
             },
             "funding": [
                 {
-                    "url": "https://www.paypal.me/jukkasvahn",
-                    "type": "custom"
+                    "url": "https://liberapay.com/gocom",
+                    "type": "liberapay"
                 }
             ],
-            "time": "2023-02-18T09:12:40+00:00"
+            "time": "2026-09-11T17:10:23+00:00"
         },
         {
             "name": "textpattern/installer",
-            "version": "1.0.14",
+            "version": "1.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocom/textpattern-installer.git",
-                "reference": "cd940ecb17b063780b1c7e0617a4e2523176b921"
+                "reference": "08a0f23e6596926f276af9c57d1843905658a913"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocom/textpattern-installer/zipball/cd940ecb17b063780b1c7e0617a4e2523176b921",
-                "reference": "cd940ecb17b063780b1c7e0617a4e2523176b921",
+                "url": "https://api.github.com/repos/gocom/textpattern-installer/zipball/08a0f23e6596926f276af9c57d1843905658a913",
+                "reference": "08a0f23e6596926f276af9c57d1843905658a913",
                 "shasum": ""
             },
             "require": {
@@ -271,11 +271,11 @@
                 "issues": "https://github.com/gocom/textpattern-installer/issues",
                 "source": "https://github.com/gocom/textpattern-installer"
             },
-            "time": "2022-04-23T21:38:59+00:00"
+            "time": "2026-09-11T19:09:04+00:00"
         },
         {
             "name": "textpattern/lock",
-            "version": "4.8.8",
+            "version": "4.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocom/textpattern-lock.git",
@@ -314,12 +314,12 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.1"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }
