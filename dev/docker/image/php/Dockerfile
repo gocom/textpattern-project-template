@@ -1,4 +1,10 @@
-FROM php:8.3-fpm
+FROM golang:1.27-trixie AS mailhog
+
+WORKDIR /usr/src/app
+
+RUN go install github.com/mailhog/mhsendmail@v0.2.0
+
+FROM php:8.5-fpm-trixie
 
 RUN apt-get update && apt-get install -y \
     bash \
@@ -16,21 +22,16 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd
 
-RUN git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached \
-    && cd /usr/src/php/ext/memcached \
-    && git checkout v3.3.0 \
-    && docker-php-ext-configure memcached \
-    && docker-php-ext-install memcached
-
-COPY --from=composer:2.8 /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:2.10.3 /usr/bin/composer /usr/local/bin/composer
+COPY --from=ghcr.io/php/pie:1.5.0-bin /pie /usr/local/bin/pie
 COPY --from=atkrad/wait4x:latest /usr/bin/wait4x /usr/local/bin/wait4x
+COPY --from=mailhog /go/bin/mhsendmail /usr/local/bin/mhsendmail
+
+RUN pie install php-memcached/php-memcached \
+    && docker-php-ext-enable memcached
+
 COPY ./bin/ /usr/local/bin/
 COPY ./conf/ /usr/local/etc/php/conf.d/
-
-RUN curl -Lsf https://dl.google.com/go/go1.12.7.linux-amd64.tar.gz | tar -C '/usr/local' -xvzf -
-ENV GOBIN /usr/local/bin
-ENV PATH /usr/local/go/bin:$PATH
-RUN go get github.com/mailhog/mhsendmail
 
 RUN chmod +x /usr/local/bin/* \
     && chown -R www-data:www-data /var/www
