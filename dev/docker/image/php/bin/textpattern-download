@@ -7,6 +7,18 @@ rm -f /tmp/textpattern.tar.gz
 curl -L "https://github.com/textpattern/textpattern/releases/download/${TEXTPATTERN_VERSION}/textpattern-${TEXTPATTERN_VERSION}.tar.gz" \
     --output /tmp/textpattern.tar.gz
 
+if [ "${TEXTPATTERN_CHECKSUM:-}" ]; then
+    checksum="$(shasum -a 256 /tmp/textpattern.tar.gz | awk '{print $1}')"
+
+    if ! [ "$checksum" = "$TEXTPATTERN_CHECKSUM" ]; then
+        echo "Textpatern download checksum mismatch." >&2
+        echo "Expected: $TEXTPATTERN_CHECKSUM" >&2
+        echo "Received: $checksum" >&2
+        rm -f /tmp/textpattern.tar.gz
+        exit 1
+    fi
+fi
+
 mkdir -p /var/www/html/public
 
 tar -xf /tmp/textpattern.tar.gz -C /var/www/html/public/ --strip 1

@@ -27,6 +27,8 @@ services:
         condition: service_completed_successfully
       nginx:
         condition: service_started
+      varnish:
+        condition: service_started
       phpmyadmin:
         condition: service_started
       mailhog:
@@ -42,6 +44,15 @@ services:
       - php
     depends_on:
       - php
+
+  varnish:
+    image: varnish:9.1.0
+    volumes:
+      - ./dev/docker/image/varnish/conf/default.vcl:/etc/varnish/default.vcl
+    networks:
+      - proxy
+    depends_on:
+      - nginx
 
   php:
     build: ./dev/docker/image/php
@@ -66,6 +77,7 @@ services:
       - ADMIN_THEME
       - PUBLIC_THEME
       - TEXTPATTERN_VERSION
+      - TEXTPATTERN_CHECKSUM
       - HOST_UID
       - HOST_GID
     networks:
