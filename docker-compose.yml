@@ -51,6 +51,7 @@ services:
       - ./dev/docker/image/varnish/conf/default.vcl:/etc/varnish/default.vcl
     networks:
       - proxy
+      - php
     depends_on:
       - nginx
 
@@ -70,6 +71,7 @@ services:
       - DATABASE_TABLE_PREFIX
       - MEMCACHED_HOST
       - MEMCACHED_PORT
+      - VINYL_BASEURL
       - ADMIN_USER_FULL_NAME
       - ADMIN_USER_EMAIL
       - ADMIN_USER_LOGIN_NAME

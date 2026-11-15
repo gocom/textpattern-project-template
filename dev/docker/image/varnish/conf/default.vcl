@@ -9,7 +9,7 @@ backend default {
 }
 
 acl purge {
-    "nginx";
+    "php";
     "localhost";
 }
 
