@@ -271,16 +271,16 @@
         },
         {
             "name": "textpattern/installer",
-            "version": "1.0.15",
+            "version": "1.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocom/textpattern-installer.git",
-                "reference": "08a0f23e6596926f276af9c57d1843905658a913"
+                "reference": "e39c9a2c393c5ab6b6a2c6448c656fa7807e6708"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocom/textpattern-installer/zipball/08a0f23e6596926f276af9c57d1843905658a913",
-                "reference": "08a0f23e6596926f276af9c57d1843905658a913",
+                "url": "https://api.github.com/repos/gocom/textpattern-installer/zipball/e39c9a2c393c5ab6b6a2c6448c656fa7807e6708",
+                "reference": "e39c9a2c393c5ab6b6a2c6448c656fa7807e6708",
                 "shasum": ""
             },
             "require": {
@@ -325,7 +325,7 @@
                 "issues": "https://github.com/gocom/textpattern-installer/issues",
                 "source": "https://github.com/gocom/textpattern-installer"
             },
-            "time": "2026-09-11T19:09:04+00:00"
+            "time": "2026-11-15T18:31:59+00:00"
         },
         {
             "name": "textpattern/lock",
