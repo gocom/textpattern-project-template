@@ -25,6 +25,53 @@ cat <<EOF > /tmp/textpattern-setup-config.json || exit 1
 }
 EOF
 
+cat <<EOF > /var/www/html/public/textpattern/setup/data/custom.prefs || exit 1
+{
+    "file_base_path": {
+        "val": "/var/www/html/files",
+        "type": "0",
+        "event": "admin",
+        "html": "text_input",
+        "position": "40"
+    },
+    "permlink_format": {
+        "val": "1",
+        "type": "0",
+        "event": "publish",
+        "html": "permlink_format",
+        "position": "100"
+    },
+    "permlink_mode": {
+        "val": "year_month_day_title",
+        "type": "0",
+        "event": "site",
+        "html": "permlinkmodes",
+        "position": "180"
+    },
+    "skin_dir": {
+        "val": "../themes",
+        "type": "0",
+        "event": "admin",
+        "html": "text_input",
+        "position": "30"
+    },
+    "tempdir": {
+        "val": "/var/www/html/tmp",
+        "type": "0",
+        "event": "admin",
+        "html": "text_input",
+        "position": "80"
+    },
+    "url_mode": {
+        "val": "1",
+        "type": "2",
+        "event": "publish",
+        "html": "text_input",
+        "position": "0"
+    }
+}
+EOF
+
 textpattern-wait-for-db || exit 1
 
 status=0
