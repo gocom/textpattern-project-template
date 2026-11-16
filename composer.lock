@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc5cf34a45bcafd4b8d9da2d674ff41a",
+    "content-hash": "46bef7f98db5041b477696e2f53ca81d",
     "packages": [
         {
             "name": "rah/rah_autoload",
@@ -217,16 +217,16 @@
         },
         {
             "name": "rah/rah_vinyl",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocom/rah_vinyl.git",
-                "reference": "a243421b45a6064c472ffb2949468ec070434c6f"
+                "reference": "dd19dda5be235f9d8d1418007295988c7e9ad8ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocom/rah_vinyl/zipball/a243421b45a6064c472ffb2949468ec070434c6f",
-                "reference": "a243421b45a6064c472ffb2949468ec070434c6f",
+                "url": "https://api.github.com/repos/gocom/rah_vinyl/zipball/dd19dda5be235f9d8d1418007295988c7e9ad8ff",
+                "reference": "dd19dda5be235f9d8d1418007295988c7e9ad8ff",
                 "shasum": ""
             },
             "require": {
@@ -267,7 +267,7 @@
                 "issues": "https://github.com/gocom/rah_vinyl/issues",
                 "source": "https://github.com/gocom/rah_vinyl"
             },
-            "time": "2026-11-15T17:22:42+00:00"
+            "time": "2026-11-16T21:51:29+00:00"
         },
         {
             "name": "textpattern/installer",

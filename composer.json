@@ -25,7 +25,7 @@
         "rah/rah_sitemap": "^4.0",
         "rah/rah_autoload": "^0.3.2",
         "rah/rah_memcached": "^0.3.0",
-        "rah/rah_vinyl": "^0.1.0"
+        "rah/rah_vinyl": "^0.2.0"
     },
     "autoload": {
         "psr-4": {
