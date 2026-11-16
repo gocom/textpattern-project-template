@@ -28,7 +28,7 @@ EOF
 cat <<EOF > /var/www/html/public/textpattern/setup/data/custom.prefs || exit 1
 {
     "file_base_path": {
-        "val": "/var/www/html/files",
+        "val": "/var/www/html/data/files",
         "type": "0",
         "event": "admin",
         "html": "text_input",
@@ -56,7 +56,7 @@ cat <<EOF > /var/www/html/public/textpattern/setup/data/custom.prefs || exit 1
         "position": "30"
     },
     "tempdir": {
-        "val": "/var/www/html/tmp",
+        "val": "/var/www/html/data/tmp",
         "type": "0",
         "event": "admin",
         "html": "text_input",

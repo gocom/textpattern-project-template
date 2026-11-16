@@ -19,9 +19,10 @@ if [ "${TEXTPATTERN_CHECKSUM:-}" ]; then
     fi
 fi
 
-mkdir -p /var/www/html/files
+mkdir -p /var/www/html/data/files
+mkdir -p /var/www/html/data/plugins
+mkdir -p /var/www/html/data/tmp
 mkdir -p /var/www/html/public
-mkdir -p /var/www/html/tmp
 
 tar -xf /tmp/textpattern.tar.gz -C /var/www/html/public/ --strip 1
 
