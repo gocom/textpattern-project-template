@@ -24,7 +24,7 @@ jobs:
 
     steps:
 
-      - name: Slack / Notification
+      - name: Slack / Building status
         id: slack
         uses: slackapi/slack-github-action@v2
         env:
