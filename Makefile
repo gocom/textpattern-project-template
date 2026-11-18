@@ -45,13 +45,13 @@ start: stop
 	$(COMPOSE) up -d --remove-orphans --build
 
 stop:
-	docker-compose stop
+	$(COMPOSE) stop
 
 clean:
-	docker-compose run --rm php chown -R $(HOST_UID):$(HOST_GID) .
+	$(COMPOSE) run --rm php chown -R $(HOST_UID):$(HOST_GID) .
 	$(MAKE) stop
 	git clean -f -X -d
-	docker-compose down --rmi 'local' --volumes
+	$(COMPOSE) down --rmi 'local' --volumes
 
 shell:
 	$(PHP) bash
