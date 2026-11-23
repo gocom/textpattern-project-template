@@ -26,6 +26,17 @@ mkdir -p /var/www/html/public
 
 tar -xf /tmp/textpattern.tar.gz -C /var/www/html/public/ --strip 1
 
+rm -rf /var/www/html/public/.editorconfig \
+    /var/www/html/public/files \
+    /var/www/html/public/rpc \
+    /var/www/html/public/sites \
+    /var/www/html/public/HISTORY.txt \
+    /var/www/html/public/.htaccess \
+    /var/www/html/public/INSTALL.txt \
+    /var/www/html/public/LICENSE.txt \
+    /var/www/html/public/README.txt \
+    /var/www/html/public/UPGRADE.txt
+
 chown -R "$HOST_UID:$HOST_GID" /var/www/html/
 
 rm -f /tmp/textpattern.tar.gz
